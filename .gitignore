@@ -1,0 +1,6 @@
+node_modules/ 
+temp/
+upload/
+.DS_Store
+config/config.js
+.env
