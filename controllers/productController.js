@@ -7,14 +7,29 @@ const productController = {
   getProducts: (req, res) => {
     // res.render('index', { title: 'Express' })
 
-    Product.findAll({ include: Category }).then(products => {
+    // Product.findAll({ include: Category }).then(products => {
+
+    let whereQuery = {}
+    let categoryId = ''
+    if (req.query.categoryId) {
+      categoryId = Number(req.query.categoryId)
+      whereQuery['CategoryId'] = categoryId
+    }
+
+    Product.findAll({ include: Category, where: whereQuery }).then(products => {
+
+
       const data = products.map(r => ({
         ...r.dataValues,
         description: r.dataValues.description.substring(0, 50)
       }))
-      return res.render('index', {
-        products: data,
-        title: 'Express'
+      Category.findAll().then(categories => { // 取出 categoies 
+        return res.render('index', {
+          products: data,
+          categories: categories,
+          categoryId: categoryId
+        })
+
       })
     })
 
