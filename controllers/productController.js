@@ -18,6 +18,15 @@ const productController = {
       })
     })
 
+  },
+  getProduct: (req, res) => {
+    return Product.findByPk(req.params.id, {
+      include: Category
+    }).then(product => {
+      return res.render('product', {
+        product: product
+      })
+    })
   }
 }
 module.exports = productController

@@ -24,6 +24,8 @@ module.exports = (app, passport) => {
 
   //front : product
   app.get('/', productController.getProducts)
+  app.get('/products/:id', productController.getProduct)
+
 
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)
