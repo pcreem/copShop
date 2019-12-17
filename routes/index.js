@@ -1,7 +1,10 @@
 const userController = require('../controllers/userController.js')
+const productController = require('../controllers/productController.js')
 
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
+
+
 
 module.exports = (app, passport) => {
   const authenticated = (req, res, next) => {
@@ -18,9 +21,9 @@ module.exports = (app, passport) => {
     }
     res.redirect('/signin')
   }
-  app.get('/', function (req, res, next) {
-    res.render('index', { title: 'Express' });
-  });
+
+  //front : product
+  app.get('/', productController.getProducts)
 
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)
