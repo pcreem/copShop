@@ -7,7 +7,7 @@ module.exports = {
     // generate user seed data
     return queryInterface.bulkInsert('Users', [{
       email: 'root@example.com',
-      password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
+      password: bcrypt.hashSync('123', bcrypt.genSaltSync(10), null),
       role: 'admin',
       name: 'root',
       tel: '',
@@ -34,24 +34,11 @@ module.exports = {
       updatedAt: new Date()
     }], {})
 
-    // generate restaurant seed data
-    return queryInterface.bulkInsert('Restaurants',
-      Array.from({ length: 50 }).map(d =>
-        ({
-          name: faker.name.findName(),
-          tel: faker.phone.phoneNumber(),
-          address: faker.address.streetAddress(),
-          opening_hours: '08:00',
-          image: faker.image.imageUrl(),
-          description: faker.lorem.text(),
-          createdAt: new Date(),
-          updatedAt: new Date()
-        })
-      ), {})
   },
 
   down: (queryInterface, Sequelize) => {
     queryInterface.bulkDelete('Users', null, {})
-    return queryInterface.bulkDelete('Restaurants', null, {})
+    queryInterface.bulkDelete('Categories', null, {})
+    return queryInterface.bulkDelete('Products', null, {})
   }
 }

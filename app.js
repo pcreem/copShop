@@ -10,7 +10,11 @@ var cookieParser = require('cookie-parser');
 const app = express()
 const port = process.env.PORT || 3000
 
-app.engine('handlebars', handlebars({ defaultLayout: 'main' }))
+app.engine('handlebars', handlebars({
+  defaultLayout: 'main',
+  helpers: require('./config/handlebars-helpers.js')
+})) //handlebars v3.1.0 優化中已直接帶入，故可不寫
+
 app.set('view engine', 'handlebars')
 
 app.use(bodyParser.urlencoded({ extended: true }))
