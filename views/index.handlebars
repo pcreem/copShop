@@ -1,3 +1,11 @@
+<!-- Search form -->
+<form action="/products/search" method="POST" class="mb-3 form-inline active-cyan-4">
+  <input id="search" name="search" class="form-control form-control-m mr-3 w-25" type="text" placeholder="Search"
+    aria-label="Search">
+  <button type="submit" class="btn btn-primary float-right">search</button>
+</form>
+
+
 <ul class="nav nav-pills">
   <li class="nav-item">
     <a class="nav-link {{#ifCond '' categoryId}}active{{/ifCond}}" href="?categoryId=">全部</a>
