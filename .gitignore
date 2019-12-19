@@ -3,4 +3,5 @@ temp/
 upload/
 .DS_Store
 config/config.js
+models/index.js
 .env
