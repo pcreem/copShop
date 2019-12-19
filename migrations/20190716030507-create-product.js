@@ -24,6 +24,9 @@ module.exports = {
       CategoryId: {
         type: Sequelize.INTEGER
       },
+      PopulationId: {
+        type: Sequelize.INTEGER
+      },
 
       discount: {
         type: Sequelize.FLOAT
