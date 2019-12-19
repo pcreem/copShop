@@ -14,6 +14,7 @@ module.exports = {
         sn: faker.random.number(),
         shipping_status: faker.address.city(),
         payment_status: payStatus[Math.floor(Math.random() * payStatus.length)],
+        UserId: Math.floor(Math.random() * (4 - 2)) + 2,
         createdAt: new Date(),
         updatedAt: new Date(),
       })

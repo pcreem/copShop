@@ -1,6 +1,8 @@
 const userController = require('../controllers/userController.js')
 const productController = require('../controllers/productController.js')
 
+const adminComtroller = require('../controllers/adminController.js')
+
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
 
@@ -16,7 +18,7 @@ module.exports = (app, passport) => {
 
   const authenticatedAdmin = (req, res, next) => {
     if (req.isAuthenticated()) {
-      if (req.user.isAdmin) { return next() }
+      if (req.user.role == 'root') { return next() }
       return res.redirect('/')
     }
     res.redirect('/signin')
@@ -34,4 +36,7 @@ module.exports = (app, passport) => {
   app.get('/signin', userController.signInPage)
   app.post('/signin', passport.authenticate('local', { failureRedirect: '/signin', failureFlash: true }), userController.signIn)
   app.get('/logout', userController.logout)
+
+  //back
+  app.get('/admin/index', adminComtroller.getIndex)
 }
