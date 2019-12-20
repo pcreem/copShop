@@ -22,7 +22,6 @@ const adminController = {
     }).then((payments) => {
       payments = payments.map(payment => ({
         ...payment.dataValues,
-
       }))
       orders = payments.map(payment => ({
         ...payment.Order.dataValues,
@@ -35,10 +34,16 @@ const adminController = {
       console.log(orders)
       console.log('#######')
       console.log(users)
-      return res.render('admin/index', { payments: payments })
+      return res.render('admin/index', { payments: payments, orders: orders, users: users })
     })
 
-  }
+  },
+  // getRestaurants: (req, res) => {
+  //   return Payment.findAll({ include: Order }).then(payments => {
+  //     console.log(payments)
+  //     return res.render('admin/index', { payments: payments })
+  //   })
+  // },
 }
 module.exports = adminController
 
