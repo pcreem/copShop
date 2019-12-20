@@ -16,6 +16,34 @@ let cartController = {
     })
   },
 
+  addItemQuantity: (req, res) => {
+    CartItem.findByPk(req.params.id).then(cartItem => {
+      cartItem.update({
+        quantity: cartItem.quantity + 1
+      }).then((cartItem) => {
+        res.redirect(`/cart`)
+      })
+    })
+
+  },
+  subItemQuantity: (req, res) => {
+    CartItem.findByPk(req.params.id).then(cartItem => {
+      cartItem.update({
+        quantity: cartItem.quantity - 1 >= 1 ? cartItem.quantity - 1 : 1
+      }).then((cartItem) => {
+        res.redirect(`/cart`)
+      })
+    })
+  },
+  deleteCartItem: (req, res) => {
+    CartItem.findByPk(req.params.id).then(cartItem => {
+      cartItem.destroy()
+        .then((cartItem) => {
+          res.redirect(`/cart`)
+        })
+    })
+  },
+
   postCart: (req, res) => {
     // console.log('heree ------ session')
     // console.log(req.session)

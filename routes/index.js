@@ -29,11 +29,11 @@ module.exports = (app, passport) => {
   app.post('/products/search', productController.searchProducts)
 
   // cart
-  app.get('/cart', cartController.getCart)
-  app.post('/cart', cartController.postCart)
-
-
-
+  app.get('/cart', cartController.getCart)// show items in cart
+  app.post('/cart', cartController.postCart)// add item to cart
+  app.post('/cartItem/:id/add', cartController.addItemQuantity)// add quantity to item
+  app.post('/cartItem/:id/sub', cartController.subItemQuantity)// sub quantity to item
+  app.delete('/cartItem/:id', cartController.deleteCartItem)
 
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)
