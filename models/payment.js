@@ -6,11 +6,13 @@ module.exports = (sequelize, DataTypes) => {
     payment_method: DataTypes.STRING,
     paid_at: DataTypes.DATE,
     params: DataTypes.TEXT,
-    OrderId: DataTypes.INTEGER
+    OrderId: DataTypes.INTEGER,
+    UserId: DataTypes.INTEGER
   }, {});
-  Payment.associate = function(models) {
+  Payment.associate = function (models) {
     // associations can be defined here
     Payment.belongsTo(models.Order)
+    Payment.belongsTo(models.User)
   };
   return Payment;
 };

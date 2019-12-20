@@ -14,6 +14,7 @@ module.exports = {
           paid_at: new Date(),
           params: payStatus[Math.floor(Math.random() * payStatus.length)],
           OrderId: Math.floor(Math.random() * 30) + 1,
+          UserId: Math.floor(Math.random() * (4 - 2)) + 2,
           createdAt: new Date(),
           updatedAt: new Date(),
         })
