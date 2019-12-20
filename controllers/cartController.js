@@ -6,7 +6,8 @@ const PAGE_OFFSET = 0;
 
 let cartController = {
   getCart: (req, res) => {
-    return Cart.findOne({ include: 'items' }).then(cart => {
+    return Cart.findByPk(req.session.cartId, { include: 'items' }).then(cart => {
+      cart = cart || { items: [] }
       let totalPrice = cart.items.length > 0 ? cart.items.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
       return res.render('cart', {
         cart,
@@ -15,12 +16,9 @@ let cartController = {
     })
   },
 
-
   postCart: (req, res) => {
     // console.log('heree ------ session')
     // console.log(req.session)
-    // console.log('heree ------ cartId')
-    // console.log(req.session.cartId)
 
     //cookie 失效的時候 req.session.cartId 就是 undefine
     //這時就會再建一個新的購物車 cart
@@ -45,8 +43,6 @@ let cartController = {
           quantity: (cartItem.quantity || 0) + 1,
         })
           .then((cartItem) => {
-            // console.log('heree ------ cart.id')
-            // console.log(cart.id)
             //把購物車編號存回session
             req.session.cartId = cart.id
             return req.session.save(() => {
