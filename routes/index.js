@@ -1,5 +1,6 @@
 const userController = require('../controllers/userController.js')
 const productController = require('../controllers/productController.js')
+const cartController = require('../controllers/cartController.js')
 
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
@@ -26,6 +27,12 @@ module.exports = (app, passport) => {
   app.get('/', productController.getProducts)
   app.get('/products/:id', productController.getProduct)
   app.post('/products/search', productController.searchProducts)
+
+  // cart
+  app.get('/cart', cartController.getCart)
+  app.post('/cart', cartController.postCart)
+
+
 
 
   app.get('/signup', userController.signUpPage)

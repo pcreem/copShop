@@ -22,7 +22,7 @@ app.use(cookieParser());
 app.use(session({
   secret: 'ac',
   name: 'ac',
-  cookie: { maxAge: 80000 },
+  cookie: { maxAge: 300000 }, //是300000ms，即300s, 5分鐘
   resave: false,
   saveUninitialized: true,
 }));
