@@ -1,31 +1,82 @@
-<a class="button" href="#">User</a>
-<a class="button" href="#">Farmer</a>
-<a class="button" href="#">Payment</a>
-<a class="button" href="#">Order</a>
-<a class="button" href="#">Line</a>
+<a class="button" href="/admin/index">DashBoard</a>
+<a class="button" href="/admin/user">User</a>
+<a class="button" href="/admin/farmer">Farmer</a>
+<a class="button" href="/admin/payment">Payment</a>
+<a class="button" href="/admin/order">Order</a>
+<a class="button" href="/admin/line">Line</a>
 
+<pre>
+  <table class="u-full-width">
+    <h5>Datas</h5>
+    <thead>
+      <tr>
+        <th>orders</th>
+        <th>conclude</th>
+        <th>amount</th>
+        <th>cost</th>
+        <th>gross</th>
+        <th>profit</th>
+        <th>pct</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{backendData.total_orders}}</td>
+        <td>{{backendData.conclude_orders}}</td>
+        <td>{{backendData.total_amount}}</td>
+        <td>{{backendData.total_cost}}</td>
+        <td>{{backendData.gross}}</td>
+        <td>{{backendData.profit_margin}}%</td>
+        <td>{{backendData.per_customer_transaction}}</td>
+      </tr>
+    </tbody>
+  </table>
+</pre>
 
-<table class="u-full-width">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Age</th>
-      <th>Sex</th>
-      <th>Location</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Dave Gamache</td>
-      <td>26</td>
-      <td>Male</td>
-      <td>San Francisco</td>
-    </tr>
-    <tr>
-      <td>Dwayne Johnson</td>
-      <td>42</td>
-      <td>Male</td>
-      <td>Hayward</td>
-    </tr>
-  </tbody>
-</table>
+<pre>
+  <table class="u-full-width">
+<h5>Product</h5>
+    <thead>
+      <tr>
+        <th>sn</th>
+        <th>id</th>
+        <th>name</th>
+        <th>price</th>
+        <th>quantity</th>
+        <th>amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each productA}}
+      <tr>
+        <td>{{this.sn}}</td>
+        <td>{{this.pid}}</td>
+        <td>{{this.pname}}</td>
+        <td>{{this.pprice}}</td>
+        <td>{{this.pquantity}}</td>
+        <td>{{this.pamount}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</pre>
+
+<pre>
+  <table class="u-full-width">
+<h5>User</h5>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>total_amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each userAmounts}}
+      <tr>
+        <td>{{this.UserId}}</td>
+        <td>{{this.total_amount}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</pre>

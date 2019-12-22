@@ -39,4 +39,5 @@ module.exports = (app, passport) => {
 
   //back
   app.get('/admin/index', adminComtroller.getIndex)
+  app.get('/admin/orders', adminComtroller.getOrders)
 }

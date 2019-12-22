@@ -16,7 +16,7 @@ module.exports = {
         ), {})
 
     return queryInterface.bulkInsert('Products',
-      Array.from({ length: 100 }).map((item, index) =>
+      Array.from({ length: 10 }).map((item, index) =>
         ({
           id: index + 1,
           name: faker.commerce.productName(),

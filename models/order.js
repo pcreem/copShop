@@ -5,19 +5,18 @@ module.exports = (sequelize, DataTypes) => {
     phone: DataTypes.STRING,
     address: DataTypes.STRING,
     amount: DataTypes.INTEGER,
+    cost: DataTypes.INTEGER,
     sn: DataTypes.INTEGER,
     shipping_status: DataTypes.STRING,
     payment_status: DataTypes.STRING,
     UserId: DataTypes.INTEGER
   }, {});
-  Order.associate = function(models) {
+  Order.associate = function (models) {
     // associations can be defined here
-    Order.belongsToMany(models.Product, { 
-      as: 'items', 
-      through: { 
-        model: models.OrderItem, unique: false 
-      }, 
-      foreignKey: 'OrderId'
+    Order.belongsToMany(models.Product, {
+      through: models.OrderItem,
+      foreignKey: 'OrderId',
+      as: 'items'
     });
     Order.belongsTo(models.User)
     Order.hasMany(models.Payment)
