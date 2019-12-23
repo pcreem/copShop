@@ -1,6 +1,8 @@
 const userController = require('../controllers/userController.js')
 const productController = require('../controllers/productController.js')
 const cartController = require('../controllers/cartController.js')
+const orderController = require('../controllers/orderController.js')
+
 
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
@@ -23,7 +25,7 @@ module.exports = (app, passport) => {
     res.redirect('/signin')
   }
 
-  //front : product
+  // product
   app.get('/', productController.getProducts)
   app.get('/products/:id', productController.getProduct)
   app.post('/products/search', productController.searchProducts)
@@ -34,6 +36,11 @@ module.exports = (app, passport) => {
   app.post('/cartItem/:id/add', cartController.addItemQuantity)// add quantity to item
   app.post('/cartItem/:id/sub', cartController.subItemQuantity)// sub quantity to item
   app.delete('/cartItem/:id', cartController.deleteCartItem)
+
+  // order
+  app.get('/orders', orderController.getOrders)
+
+
 
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)
