@@ -75,78 +75,50 @@
 </nav>
 <br>
 
-<pre>
-  <table class="u-full-width">
-    <h5>Datas</h5>
-    <thead>
-      <tr>
-        <th>orders</th>
-        <th>conclude</th>
-        <th>amount</th>
-        <th>cost</th>
-        <th>gross</th>
-        <th>profit</th>
-        <th>pct</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>{{backendData.total_orders}}</td>
-        <td>{{backendData.conclude_orders}}</td>
-        <td>{{backendData.total_amount}}</td>
-        <td>{{backendData.total_cost}}</td>
-        <td>{{backendData.gross}}</td>
-        <td>{{backendData.profit_margin}}%</td>
-        <td>{{backendData.per_customer_transaction}}</td>
-      </tr>
-    </tbody>
-  </table>
-</pre>
+{{#if user}}
+<form action="/admin/users/{{user.id}}?_method=PUT" method="POST">
+  {{else}}
+  <form action="/admin/users" method="POST">
+    {{/if}}
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" name="name" id="name" placeholder="Enter name" value="{{user.name}}">
+    </div>
 
-<pre>
-  <table class="u-full-width">
-<h5>Product</h5>
-    <thead>
-      <tr>
-        <th>sn</th>
-        <th>id</th>
-        <th>name</th>
-        <th>price</th>
-        <th>quantity</th>
-        <th>amount</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each productA}}
-      <tr>
-        <td>{{this.sn}}</td>
-        <td>{{this.pid}}</td>
-        <td>{{this.pname}}</td>
-        <td>{{this.pprice}}</td>
-        <td>{{this.pquantity}}</td>
-        <td>{{this.pamount}}</td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
-</pre>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="text" class="form-control" name="email" id="email" placeholder="Enter email" value="{{user.email}}">
+    </div>
 
-<pre>
-  <table class="u-full-width">
-<h5>User</h5>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>amount</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each userAmounts}}
-      <tr>
-        <td>{{this.UserId}}</td>
-        <td>{{this.total_amount}}</td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
-</pre>
+    <div class="form-group">
+      <label for="tel">Tel</label>
+      <input type="text" class="form-control" name="tel" id="tel" placeholder="Enter tel" value="{{user.tel}}">
+    </div>
+
+    <div class="form-group">
+      <label for="address">Address</label>
+      <input type="text" class="form-control" name="address" id="address" placeholder="Enter address"
+        value="{{user.address}}">
+    </div>
+
+    <div class="form-group">
+      <label for="role">Role</label>
+      <select class="form-control" id="role" name="role">
+        {{#if user}}
+        {{#ifCond user.role 'user'}}
+        <option value="{{user.role}}">{{user.role}}</option>
+        <option value="farmer">farmer</option>
+        {{else}}
+        <option value="{{user.role}}">{{user.role}}</option>
+        <option value="user">user</option>
+        {{/ifCond}}
+        {{else}}
+        <option value="" selected disabled>--please select--</option>
+        <option value="user">user</option>
+        <option value="farmer">farmer</option>
+        {{/if}}
+      </select>
+    </div>
+
+    <button type="submit" class="button-primary">Submit</button>
+  </form>

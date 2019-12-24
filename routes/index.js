@@ -1,7 +1,7 @@
 const userController = require('../controllers/userController.js')
 const productController = require('../controllers/productController.js')
 
-const adminComtroller = require('../controllers/adminController.js')
+const adminController = require('../controllers/adminController.js')
 
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
@@ -38,6 +38,13 @@ module.exports = (app, passport) => {
   app.get('/logout', userController.logout)
 
   //back
-  app.get('/admin/index', adminComtroller.getIndex)
-  app.get('/admin/orders', adminComtroller.getOrders)
+  app.get('/admin/index', adminController.getIndex)
+  app.get('/admin/users', adminController.getUsers)
+  app.get('/admin/create/users', adminController.createUser)
+  app.post('/admin/users', adminController.postUser)
+  app.get('/admin/users/:id/detail', adminController.getUserdetail)
+  app.get('/admin/users/:id/edit', adminController.editUser)
+  app.put('/admin/users/:id', adminController.putUser)
+  app.delete('/admin/users/:id', adminController.deleteUser)
+  app.get('/admin/orders', adminController.getOrders)
 }

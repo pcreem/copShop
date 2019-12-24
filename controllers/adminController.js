@@ -65,7 +65,7 @@ const adminController = {
         userAmounts = userAmounts.map(userAmount => ({
           ...userAmount.dataValues,
         }))
-        console.log(orders.User)
+
         let orderamount = 0
         let ordercost = 0
         for (let i = 0; i < userAmounts.length; i++) {
@@ -90,6 +90,73 @@ const adminController = {
       })
     })
   },
+  getUsers: (req, res) => {
+    return User.findAll({
+      where: {
+        role: 'user'
+      }
+    }).then((users) => {
+      users = users.map(user => ({
+        ...user.dataValues,
+      }))
+      return res.render('admin/users', { users: users })
+    })
+  },
+  getUserdetail: (req, res) => {
+    return User.findByPk(req.params.id, {
+      include: { model: Order, include: { model: Product, as: 'items' } },
+    }).then((user) => {
+      user = user.dataValues
+      return res.render('admin/userdetail', { user: user })
+    })
+  },
+  createUser: (req, res) => {
+    return res.render('admin/createUser')
+  },
+  postUser: (req, res) => {
+    return User.create({
+      name: req.body.name,
+      email: req.body.email,
+      address: req.body.address,
+      tel: req.body.tel,
+      role: req.body.role
+    })
+      .then((user) => {
+        res.redirect('/admin/users')
+      })
+  },
+  editUser: (req, res) => {
+    return User.findByPk(req.params.id).then(user => {
+      return res.render('admin/createUser', { user: user })
+    })
+  },
+  putUser: (req, res) => {
+    return User.findByPk(req.params.id)
+      .then((user) => {
+        user.update({
+          name: req.body.name,
+          email: req.body.email,
+          address: req.body.address,
+          tel: req.body.tel,
+          role: req.body.role
+        })
+          .then((user) => {
+            res.redirect('/admin/users')
+          })
+      })
+  },
+  deleteUser: (req, res) => {
+    return User.findByPk(req.params.id)
+      .then((user) => {
+        user.destroy()
+          .then((user) => {
+            res.redirect('/admin/users')
+          })
+      })
+  },
+
+
+
   getOrders: (req, res) => {
     return Payment.findAll({
       limit: 5,
