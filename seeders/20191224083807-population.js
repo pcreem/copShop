@@ -8,7 +8,6 @@ module.exports = {
       ["泰雅", "布農", "鄒", "魯凱", "排灣", "阿美", "卑南", "太魯閣", "賽德克", "達悟", "平地"]
         .map((item, index) =>
           ({
-            id: index + 1,
             population: item,
             name: faker.internet.userName(),
             email: faker.internet.exampleEmail(),

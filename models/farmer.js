@@ -2,7 +2,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Farmer = sequelize.define('Farmer', {
     name: DataTypes.STRING,
-    email: DataTypes.STRING,
     tel: DataTypes.STRING,
     address: DataTypes.STRING,
     line: DataTypes.STRING

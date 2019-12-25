@@ -39,12 +39,23 @@ module.exports = (app, passport) => {
 
   //back
   app.get('/admin/index', adminController.getIndex)
+
   app.get('/admin/users', adminController.getUsers)
+  app.get('/admin/users/:id/detail', adminController.getUserdetail)
   app.get('/admin/create/users', adminController.createUser)
   app.post('/admin/users', adminController.postUser)
-  app.get('/admin/users/:id/detail', adminController.getUserdetail)
   app.get('/admin/users/:id/edit', adminController.editUser)
   app.put('/admin/users/:id', adminController.putUser)
   app.delete('/admin/users/:id', adminController.deleteUser)
+
+  app.get('/admin/farmers', adminController.getFarmers)
+  app.get('/admin/farmers/:id/detail', adminController.getFarmerdetail)
+  app.get('/admin/create/farmers', adminController.createFarmer)
+  app.post('/admin/farmers', adminController.postFarmer)
+  app.get('/admin/farmers/:id/edit', adminController.editFarmer)
+  app.put('/admin/farmers/:id', adminController.putFarmer)
+  app.delete('/admin/farmers/:id', adminController.deleteFarmer)
+
+
   app.get('/admin/orders', adminController.getOrders)
 }

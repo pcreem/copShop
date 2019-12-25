@@ -3,6 +3,7 @@ const db = require('../models')
 const Product = db.Product
 const Category = db.Category
 const User = db.User
+const Farmer = db.Farmer
 const Payment = db.Payment
 const Order = db.Order
 const Population = db.Population
@@ -90,6 +91,7 @@ const adminController = {
       })
     })
   },
+
   getUsers: (req, res) => {
     return User.findAll({
       where: {
@@ -118,8 +120,8 @@ const adminController = {
       name: req.body.name,
       email: req.body.email,
       address: req.body.address,
-      tel: req.body.tel,
-      role: req.body.role
+      tel: req.body.tel, 
+      role:'user'    
     })
       .then((user) => {
         res.redirect('/admin/users')
@@ -151,6 +153,70 @@ const adminController = {
         user.destroy()
           .then((user) => {
             res.redirect('/admin/users')
+          })
+      })
+  },
+
+  getFarmers: (req, res) => {
+    return Farmer.findAll({
+    }).then((farmers) => {
+      farmers = farmers.map(farmer => ({
+        ...farmer.dataValues,
+      }))
+      return res.render('admin/farmers', { farmers: farmers })
+    })
+  },
+  getFarmerdetail: (req, res) => {
+    return Farmer.findByPk(req.params.id, {
+      include: { model: Product, where:{FarmerId:req.params.id} },
+    }).then((farmer) => {
+      farmer = farmer.dataValues
+      console.log(farmer.Products)
+      return res.render('admin/farmerdetail', { farmer: farmer })
+    })
+  },
+  createFarmer: (req, res) => {
+    return res.render('admin/createFarmer')
+  },
+  postFarmer: (req, res) => {
+    return Farmer.create({
+      name: req.body.name,
+      tel: req.body.tel,
+      address: req.body.address,
+      line: req.body.line
+    })
+      .then((farmer) => {
+        res.redirect('/admin/farmers')
+      }).catch(function(err) {
+    // print the error details
+    console.log(err, req.body.name);
+    });
+  },
+  editFarmer: (req, res) => {
+    return Farmer.findByPk(req.params.id).then(farmer => {
+      return res.render('admin/createFarmer', { farmer: farmer })
+    })
+  },
+  putFarmer: (req, res) => {
+    return Farmer.findByPk(req.params.id)
+      .then((farmer) => {
+        farmer.update({
+          name: req.body.name,
+          line: req.body.line,
+          address: req.body.address,
+          tel: req.body.tel
+        })
+          .then((farmer) => {
+            res.redirect('/admin/farmers')
+          })
+      })
+  },
+  deleteFarmer: (req, res) => {
+    return Farmer.findByPk(req.params.id)
+      .then((farmer) => {
+        farmer.destroy()
+          .then((farmer) => {
+            res.redirect('/admin/farmers')
           })
       })
   },

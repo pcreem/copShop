@@ -74,7 +74,9 @@
   </div>
 </nav>
 <br>
-
+<a class="button button-primary" href="/admin/create/users">User</a>
+<a class="button" href="/admin/create/farmers">Farmer</a>
+<br><br>
 {{#if user}}
 <form action="/admin/users/{{user.id}}?_method=PUT" method="POST">
   {{else}}
@@ -101,7 +103,7 @@
         value="{{user.address}}">
     </div>
 
-    <div class="form-group">
+    {{!-- <div class="form-group">
       <label for="role">Role</label>
       <select class="form-control" id="role" name="role">
         {{#if user}}
@@ -118,7 +120,8 @@
         <option value="farmer">farmer</option>
         {{/if}}
       </select>
-    </div>
+    </div> --}}
 
     <button type="submit" class="button-primary">Submit</button>
   </form>
+</div>
