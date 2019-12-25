@@ -6,7 +6,7 @@ var payStatus = ["paid", "unpaid", "cancel"]
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('Orders',
-      Array.from({ length: 3 }).map((item, index) => ({
+      Array.from({ length: 10 }).map((item, index) => ({
         name: faker.commerce.productName(),
         phone: faker.phone.phoneNumber(),
         address: faker.address.streetAddress(),

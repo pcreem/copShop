@@ -22,10 +22,28 @@ module.exports = {
       },
 
       CategoryId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        reference: {
+          model: 'Categories',
+          key: 'id'
+        }
       },
       PopulationId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        reference: {
+          model: 'Populations',
+          key: 'id'
+        }
+      },
+      FarmerId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        reference: {
+          model: 'Farmers',
+          key: 'id'
+        }
       },
 
       discount: {
