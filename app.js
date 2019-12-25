@@ -10,6 +10,10 @@ var cookieParser = require('cookie-parser');
 const app = express()
 const port = process.env.PORT || 3000
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 app.engine('handlebars', handlebars({
   defaultLayout: 'main',
   helpers: require('./config/handlebars-helpers.js')
@@ -54,3 +58,6 @@ app.listen(port, () => {
 
 // 引入 routes 並將 app 傳進去，讓 routes 可以用 app 這個物件來指定路由
 require('./routes')(app, passport)
+
+
+

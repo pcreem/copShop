@@ -38,9 +38,9 @@ module.exports = (app, passport) => {
   app.delete('/cartItem/:id', cartController.deleteCartItem)
 
   // order
-  app.get('/orders', orderController.getOrders)
-  app.post('/order', orderController.postOrder)
-  app.post('/order/:id/cancel', orderController.cancelOrder)
+  app.get('/orders', authenticated, orderController.getOrders)
+  app.post('/order', authenticated, orderController.postOrder)
+  app.post('/order/:id/cancel', authenticated, orderController.cancelOrder)
 
 
 
