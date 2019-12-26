@@ -20,7 +20,9 @@ const productController = {
       whereQuery['CategoryId'] = categoryId
     }
 
-    Product.findAndCountAll({ include: Category, where: whereQuery, offset: offset, limit: pageLimit }).then(result => {
+    Product.findAndCountAll({
+      order: [['id', 'ASC']], include: Category, where: whereQuery, offset: offset, limit: pageLimit
+    }).then(result => {
       // data for pagination
       let page = Number(req.query.page) || 1
       let pages = Math.ceil(result.count / pageLimit)

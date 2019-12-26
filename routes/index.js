@@ -56,6 +56,18 @@ module.exports = (app, passport) => {
   app.put('/admin/farmers/:id', adminController.putFarmer)
   app.delete('/admin/farmers/:id', adminController.deleteFarmer)
 
-
   app.get('/admin/orders', adminController.getOrders)
+  app.get('/admin/orders/:id/detail', adminController.getOrderdetail)
+  app.get('/admin/orders/:id/edit', adminController.editOrder)
+  app.put('/admin/orders/:id', adminController.putOrder)
+  app.delete('/admin/orders/:id', adminController.deleteOrder)
+
+  app.get('/admin/products', adminController.getProducts)
+  app.get('/admin/products/:id/detail', adminController.getProductdetail)
+  app.get('/admin/create/products', adminController.createProduct)
+  app.post('/admin/products', upload.single('image'), adminController.postProduct)
+  app.get('/admin/products/:id/edit', adminController.editProduct)
+  app.put('/admin/products/:id', upload.single('image'),adminController.putProduct)
+  app.delete('/admin/products/:id', adminController.deleteProduct)
+
 }

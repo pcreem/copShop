@@ -9,34 +9,6 @@
     integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
   <style type="text/css">
-    /*
-* Skeleton V2.0.4
-* Copyright 2014, Dave Gamache
-* www.getskeleton.com
-* Free to use under the MIT license.
-* http://www.opensource.org/licenses/mit-license.php
-* 12/29/2014
-*/
-
-
-    /* Table of contents
-––––––––––––––––––––––––––––––––––––––––––––––––––
-- Grid
-- Base Styles
-- Typography
-- Links
-- Buttons
-- Forms
-- Lists
-- Code
-- Tables
-- Spacing
-- Utilities
-- Clearing
-- Media Queries
-*/
-
-
     /* Grid
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
     .container {
@@ -1066,7 +1038,78 @@ there.
 </head>
 
 <body>
-
+  <br>
+  <div class="navbar-spacer"></div>
+  <nav class="navbar">
+    <div class="container">
+      <ul class="navbar-list">
+        <li class="navbar-item"><a class="navbar-link" href="/">Shop</a></li>
+        <li class="navbar-item"><a class="navbar-link" href="/admin/index">dashboard</a></li>
+        <li class="navbar-item">
+          <a class="navbar-link active" href="#" data-popover="#Browse">Browse</a>
+          <div id="Browse" class="popover">
+            <ul class="popover-list">
+              <li class="popover-item">
+                <a class="popover-link" href="/admin/users">Users</a>
+              </li>
+              <li class="popover-item">
+                <a class="popover-link" href="/admin/farmers">Farmers</a>
+              </li>
+              <li class="popover-item">
+                <a class="popover-link" href="/admin/orders">Orders</a>
+              </li>
+              <li class="popover-item">
+                <a class="popover-link" href="/admin/products">Products</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="navbar-item">
+          <a class="navbar-link" href="#" data-popover="#Create">Create</a>
+          <div id="Create" class="popover">
+            <ul class="popover-list">
+              <li class="popover-item">
+                <a class="popover-link" href="/admin/create/users">Users/Farmers</a>
+              </li>
+              <li class="popover-item">
+                <a class="popover-link" href="/admin/create/products">Products</a>
+              </li>
+              <li class="popover-item">
+                <a class="popover-link" href="/admin/create/categories">Categories</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="navbar-item"><a class="navbar-link" href="/admin/line">line</a></li>
+        <li class="navbar-item">
+          <a class="navbar-link" href="#" data-popover="#moreNavPopover">More</a>
+          <div id="moreNavPopover" class="popover">
+            <ul class="popover-list">
+              <li class="popover-item">
+                <a class="popover-link" href="https://github.com/pcreem/copShop">On Github</a>
+              </li>
+              <li class="popover-item">
+                <a class="popover-link" href="https://github.com/dhg/Skeleton#browser-support">Browsers</a>
+              </li>
+              <li class="popover-item">
+                <a class="popover-link" href="https://github.com/dhg/Skeleton#license">License</a>
+              </li>
+              <li class="popover-item">
+                <a class="popover-link" href="https://github.com/dhg/Skeleton#extensions">Extensions</a>
+              </li>
+              <li class="popover-item">
+                <a class="popover-link" href="https://github.com/dhg/Skeleton/releases">Versions</a>
+              </li>
+              <li class="popover-item">
+                <a class="popover-link" href="https://github.com/dhg/Skeleton#colophon">Colophon</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <br>
   <div class="container">
     {{{body}}}
   </div>

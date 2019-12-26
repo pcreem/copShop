@@ -10,6 +10,7 @@ const Population = db.Population
 const pageLimit = 10
 const sequelize = require('sequelize');
 const Op = sequelize.Op
+const fs = require('fs')
 
 const adminController = {
   getIndex: (req, res) => {
@@ -17,11 +18,10 @@ const adminController = {
       orders = orders.map(order => ({
         ...order.dataValues,
       }))
-
       //資料解構測試
       orders.forEach(element => (element))
       orders.forEach(element => (element.items).forEach(eter => (eter.dataValues.OrderItem.quantity)));
-      //根據padi條件重構product資料
+      //根據paid條件重構product資料
       let productA = []
       let paidarr = []
       for (let i = 0; i < orders.length; i++) {
@@ -29,6 +29,7 @@ const adminController = {
           paidarr.push('1')
           for (let a = 0; a < orders[i].items.length; a++) {
             let product = {};
+
             product.sn = (orders[i].sn)
             product.pid = (orders[i].items[a].dataValues.id)
             product.pname = (orders[i].items[a].dataValues.name)
@@ -120,8 +121,8 @@ const adminController = {
       name: req.body.name,
       email: req.body.email,
       address: req.body.address,
-      tel: req.body.tel, 
-      role:'user'    
+      tel: req.body.tel,
+      role: 'user'
     })
       .then((user) => {
         res.redirect('/admin/users')
@@ -168,10 +169,9 @@ const adminController = {
   },
   getFarmerdetail: (req, res) => {
     return Farmer.findByPk(req.params.id, {
-      include: { model: Product, where:{FarmerId:req.params.id} },
+      include: { model: Product, where: { FarmerId: req.params.id } },
     }).then((farmer) => {
       farmer = farmer.dataValues
-      console.log(farmer.Products)
       return res.render('admin/farmerdetail', { farmer: farmer })
     })
   },
@@ -187,10 +187,10 @@ const adminController = {
     })
       .then((farmer) => {
         res.redirect('/admin/farmers')
-      }).catch(function(err) {
-    // print the error details
-    console.log(err, req.body.name);
-    });
+      }).catch(function (err) {
+        // print the error details
+        console.log(err, req.body.name);
+      });
   },
   editFarmer: (req, res) => {
     return Farmer.findByPk(req.params.id).then(farmer => {
@@ -221,31 +221,193 @@ const adminController = {
       })
   },
 
-
-
   getOrders: (req, res) => {
-    return Payment.findAll({
-      limit: 5,
-      order: [['amount', 'DESC']],
-      include: [
-        { model: User },
-        {
-          model: Order,
-          include: [{
-            model: Product, as: 'items'
-          }]
-        }]
-    }).then((payments) => {
-      payments = payments.map(payment => ({
-        ...payment.dataValues,
+    Order.findAll({ include: 'items' }).then(orders => {
+      return res.render('admin/orders', {
+        orders
+      })
+    })
+  },
+  getOrderdetail: (req, res) => {
+    Order.findByPk(req.params.id, { include: 'items' }).then(order => {
+      order = order.dataValues
+      order.createdAt = order.createdAt.toDateString()
+      return res.render('admin/orderdetail', { order })
+    })
+  },
+  editOrder: (req, res) => {
+    return Order.findByPk(req.params.id).then(order => {
+      return res.render('admin/editOrder', { order: order })
+    })
+  },
+  putOrder: (req, res) => {
+    return Order.findByPk(req.params.id)
+      .then((order) => {
+        order.update({
+          name: req.body.name,
+          phone: req.body.pheon,
+          address: req.body.address,
+          UserId: req.body.UserId,
+          shipping_status: req.body.shipping_status,
+          payment_status: req.body.payment_status,
+          sn: req.body.sn,
+        })
+          .then((order) => {
+            res.redirect('/admin/orders')
+          })
+      })
+  },
+  deleteOrder: (req, res) => {
+    return Order.findByPk(req.params.id)
+      .then((order) => {
+        order.destroy()
+          .then((order) => {
+            res.redirect('/admin/orders')
+          })
+      })
+  },
+
+  getProducts: (req, res) => {
+    let offset = 0
+    let whereQuery = {}
+    let categoryId = ''
+    if (req.query.page) {
+      offset = (req.query.page - 1) * pageLimit
+    }
+
+    if (req.query.categoryId) {
+      categoryId = Number(req.query.categoryId)
+      whereQuery['CategoryId'] = categoryId
+    }
+
+    Product.findAndCountAll({
+      order: [['id', 'ASC']], include: Category, where: whereQuery, offset: offset, limit: pageLimit
+    }).then(result => {
+      // data for pagination
+      let page = Number(req.query.page) || 1
+      let pages = Math.ceil(result.count / pageLimit)
+      let totalPage = Array.from({ length: pages }).map((item, index) => index + 1)
+      let prev = page - 1 < 1 ? 1 : page - 1
+      let next = page + 1 > pages ? pages : page + 1
+      // clean up restaurant data
+      const data = result.rows.map(r => ({
+
+        ...r.dataValues,
+        description: r.dataValues.description.substring(0, 50)
       }))
+      Category.findAll().then(categories => { // 取出 categoies 
+        return res.render('admin/products', {
+          products: data,
+          categories: categories,
+          categoryId: categoryId,
+          page: page,
+          totalPage: totalPage,
+          prev: prev,
+          next: next
+        })
 
-      console.log(payments)
-
-      return res.render('admin/orders', { payments: payments })
+      })
     })
 
   },
+
+
+  getProductdetail: (req, res) => {
+    Product.findByPk(req.params.id, { include: Category }).then(product => {
+      product = product.dataValues
+      return res.render('admin/productdetail', { product })
+    })
+  },
+  createProduct: (req, res) => {
+    Category.findAll().then(categories => {
+      Population.findAll().then(populations => {
+        Farmer.findAll().then(farmers => { return res.render('admin/createProduct', { categories, populations, farmers }) })
+      })
+    })
+  },
+  postProduct: (req, res) => {
+    const { file } = req
+    if (file) {
+      fs.readFile(file.path, (err, data) => {
+        if (err) console.log('Error: ', err)
+        fs.writeFile(`upload/${file.originalname}`, data, () => {
+          return Product.create({
+            name: req.body.name,
+            description: req.body.description,
+            price: req.body.price,
+            image: file ? `/upload/${file.originalname}` : null,
+            CategoryId: req.body.CategoryId,
+            PopulationId: req.body.PopulationId,
+            FarmerId: req.body.FarmerId
+          }).then((product) => {
+            req.flash('success_messages', 'product was successfully created')
+            return res.redirect('/admin/products')
+          }).catch(function (err) {
+            // print the error details
+            console.log(err, req.body.name);
+          });
+        })
+      })
+    } else {
+      return Product.create({
+        name: req.body.name,
+        description: req.body.description,
+        price: req.body.price,
+        image: null,
+        CategoryId: req.body.CategoryId,
+        PopulationId: req.body.PopulationId,
+        FarmerId: req.body.FarmerId
+      }).then((product) => {
+        req.flash('success_messages', 'product was successfully created')
+        return res.redirect('/admin/products')
+      }).catch(function (err) {
+        // print the error details
+        console.log(err, req.body.name);
+      });
+    }
+  },
+  editProduct: (req, res) => {
+    return Product.findByPk(req.params.id, {
+      include: [
+        { model: Category },
+        { model: Population },
+        { model: Farmer },
+      ]
+    }).then(product => {
+      product=product.dataValues
+      console.log(product)
+    return res.render('admin/createProduct', { product })
+    })
+  },
+
+  putProduct: (req, res) => {
+    const { file } = req
+    return Product.findByPk(req.params.id)
+      .then((product) => {
+        product.update({
+          name: req.body.name,
+            description: req.body.description,
+            price: req.body.price,
+            image: file ? `/upload/${file.originalname}` : product.image,
+            CategoryId: req.body.CategoryId,
+            PopulationId: req.body.PopulationId,
+            FarmerId: req.body.FarmerId
+        })
+          .then((product) => {
+            res.redirect('/admin/Products')
+          })
+      })
+  },
+  deleteProduct: (req, res) => {
+    return Product.findByPk(req.params.id)
+      .then((product) => {
+        product.destroy()
+          .then((product) => {
+            res.redirect('/admin/products')
+          })
+      })
+  },
+
 }
 module.exports = adminController
 

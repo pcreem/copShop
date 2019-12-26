@@ -8,6 +8,7 @@ module.exports = {
       ['穀類', '豆類', '薯類', '蔬菜類', '水果類', '畜類', '禽類']
         .map((item, index) =>
           ({
+            //id: index + 1, 
             name: item,
             createdAt: new Date(),
             updatedAt: new Date()
@@ -15,8 +16,9 @@ module.exports = {
         ), {})
 
     return queryInterface.bulkInsert('Products',
-      Array.from({ length: 10 }).map((item, index) =>
+      Array.from({ length: 50 }).map((item, index) =>
         ({
+          //id: index + 1,
           name: faker.commerce.productName(),
           description: faker.commerce.product() + '/' + faker.commerce.productName(),
           price: Math.round(faker.commerce.price()),
