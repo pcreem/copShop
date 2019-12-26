@@ -1,6 +1,8 @@
 const db = require('../models')
-
-const Product = db.Product
+require('dotenv').config()  
+const imgur = require('imgur-node-api')
+const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
+const Product = db.Product 
 const Category = db.Category
 const User = db.User
 const Farmer = db.Farmer
@@ -289,7 +291,7 @@ const adminController = {
       let totalPage = Array.from({ length: pages }).map((item, index) => index + 1)
       let prev = page - 1 < 1 ? 1 : page - 1
       let next = page + 1 > pages ? pages : page + 1
-      // clean up restaurant data
+      // clean up product data
       const data = result.rows.map(r => ({
 
         ...r.dataValues,
@@ -310,8 +312,6 @@ const adminController = {
     })
 
   },
-
-
   getProductdetail: (req, res) => {
     Product.findByPk(req.params.id, { include: Category }).then(product => {
       product = product.dataValues
@@ -326,45 +326,39 @@ const adminController = {
     })
   },
   postProduct: (req, res) => {
+  
     const { file } = req
     if (file) {
-      fs.readFile(file.path, (err, data) => {
-        if (err) console.log('Error: ', err)
-        fs.writeFile(`upload/${file.originalname}`, data, () => {
-          return Product.create({
+    imgur.setClientID(IMGUR_CLIENT_ID);
+    imgur.upload(file.path, (err, img) => {
+      return Product.create({
             name: req.body.name,
             description: req.body.description,
             price: req.body.price,
-            image: file ? `/upload/${file.originalname}` : null,
+            image: file ? img.data.link : product.image,
             CategoryId: req.body.CategoryId,
             PopulationId: req.body.PopulationId,
             FarmerId: req.body.FarmerId
-          }).then((product) => {
-            req.flash('success_messages', 'product was successfully created')
-            return res.redirect('/admin/products')
-          }).catch(function (err) {
-            // print the error details
-            console.log(err, req.body.name);
-          });
-        })
-      })
-    } else {
-      return Product.create({
-        name: req.body.name,
-        description: req.body.description,
-        price: req.body.price,
-        image: null,
-        CategoryId: req.body.CategoryId,
-        PopulationId: req.body.PopulationId,
-        FarmerId: req.body.FarmerId
       }).then((product) => {
         req.flash('success_messages', 'product was successfully created')
         return res.redirect('/admin/products')
-      }).catch(function (err) {
-        // print the error details
-        console.log(err, req.body.name);
-      });
+      })
+    })
     }
+    else {
+    return Product.create({
+       name: req.body.name,
+            description: req.body.description,
+            price: req.body.price,
+            image: product.image,
+            CategoryId: req.body.CategoryId,
+            PopulationId: req.body.PopulationId,
+            FarmerId: req.body.FarmerId
+    }).then((product) => {
+      req.flash('success_messages', 'product was successfully created')
+      return res.redirect('/admin/products')
+    })
+   }
   },
   editProduct: (req, res) => {
     return Product.findByPk(req.params.id, {
@@ -381,23 +375,67 @@ const adminController = {
   },
 
   putProduct: (req, res) => {
-    const { file } = req
+
+  const { file } = req
+  if (file) {
+    imgur.setClientID(IMGUR_CLIENT_ID);
+    imgur.upload(file.path, (err, img) => {
+      return Product.findByPk(req.params.id)
+        .then((product) => {
+          product.update({
+            name: req.body.name,
+            description: req.body.description,
+            price: req.body.price,
+            image: file ? img.data.link : product.image,
+            CategoryId: req.body.CategoryId,
+            PopulationId: req.body.PopulationId,
+            FarmerId: req.body.FarmerId
+          })
+          .then((product) => {
+            req.flash('success_messages', 'product was successfully to update')
+            res.redirect('/admin/products')
+          })
+        })
+    })
+  }
+  else
     return Product.findByPk(req.params.id)
       .then((product) => {
         product.update({
-          name: req.body.name,
+           name: req.body.name,
             description: req.body.description,
             price: req.body.price,
-            image: file ? `/upload/${file.originalname}` : product.image,
+            image: file ? img.data.link : product.image,
             CategoryId: req.body.CategoryId,
             PopulationId: req.body.PopulationId,
             FarmerId: req.body.FarmerId
         })
-          .then((product) => {
-            res.redirect('/admin/Products')
-          })
+        .then((product) => {
+          req.flash('success_messages', 'product was successfully to update')
+          res.redirect('/admin/products')
+        })
       })
   },
+
+
+  // putProduct: (req, res) => {
+  //   const { file } = req
+  //   return Product.findByPk(req.params.id)
+  //     .then((product) => {
+  //       product.update({
+  //         name: req.body.name,
+  //           description: req.body.description,
+  //           price: req.body.price,
+  //           image: file ? `/upload/${file.originalname}` : product.image,
+  //           CategoryId: req.body.CategoryId,
+  //           PopulationId: req.body.PopulationId,
+  //           FarmerId: req.body.FarmerId
+  //       })
+  //         .then((product) => {
+  //           res.redirect('/admin/Products')
+  //         })
+  //     })
+  // },
   deleteProduct: (req, res) => {
     return Product.findByPk(req.params.id)
       .then((product) => {
