@@ -20,7 +20,10 @@ const transporter = nodemailer.createTransport({
 
 let orderController = {
   getOrders: (req, res) => {
-    Order.findAll({ include: 'items' }).then(orders => {
+    Order.findAll({
+      where: { UserId: req.user.id },
+      include: 'items'
+    }).then(orders => {
       return res.render('orders', {
         orders
       })
@@ -40,7 +43,7 @@ let orderController = {
         amount: req.body.amount,
         shipping_status: req.body.shipping_status,
         payment_status: req.body.payment_status,
-        // UserId: 0,
+        UserId: req.user.id
       }).then(order => {
         //3 copy cart to order
 
