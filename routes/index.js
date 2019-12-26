@@ -1,5 +1,8 @@
 const userController = require('../controllers/userController.js')
 const productController = require('../controllers/productController.js')
+const cartController = require('../controllers/cartController.js')
+const orderController = require('../controllers/orderController.js')
+
 
 const adminController = require('../controllers/adminController.js')
 
@@ -24,10 +27,23 @@ module.exports = (app, passport) => {
     res.redirect('/signin')
   }
 
-  //front : product
+  // product
   app.get('/', productController.getProducts)
   app.get('/products/:id', productController.getProduct)
   app.post('/products/search', productController.searchProducts)
+
+  // cart
+  app.get('/cart', cartController.getCart)// show items in cart
+  app.post('/cart', cartController.postCart)// add item to cart
+  app.post('/cartItem/:id/add', cartController.addItemQuantity)// add quantity to item
+  app.post('/cartItem/:id/sub', cartController.subItemQuantity)// sub quantity to item
+  app.delete('/cartItem/:id', cartController.deleteCartItem)
+
+  // order
+  app.get('/orders', authenticated, orderController.getOrders)
+  app.post('/order', authenticated, orderController.postOrder)
+  app.post('/order/:id/cancel', authenticated, orderController.cancelOrder)
+
 
 
   app.get('/signup', userController.signUpPage)

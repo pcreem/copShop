@@ -936,7 +936,6 @@ there.
   </style>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
   <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
   <script>
     $(document).ready(function () {
@@ -1038,12 +1037,31 @@ there.
 </head>
 
 <body>
+
+{{!-- <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+    <h5 class="my-0 mr-md-auto font-weight-normal">
+      <a href="/">AC Shop</a>
+    </h5>
+    <nav class="my-2 my-md-0 mr-md-3">
+      <a class="p-2 text-dark" href="/cart">Cart</a>
+      <a class="p-2 text-dark" href="/orders">Orders</a>
+      <a class="p-2 text-dark" href="/signin">SignIn</a>
+    </nav>
+  </div> --}}
+
   <br>
   <div class="navbar-spacer"></div>
   <nav class="navbar">
     <div class="container">
       <ul class="navbar-list">
         <li class="navbar-item"><a class="navbar-link" href="/">Shop</a></li>
+       
+          <li class="navbar-item"><a class="navbar-link" href="/cart">Cart</a></li>
+          <li class="navbar-item"><a class="navbar-link" href="/orders">Orders</a></li>
+          <li class="navbar-item"><a class="navbar-link" href="/signin">SignIn</a></li>
+       </ul>
+       <ul class="navbar-list">
+        {{!-- {{#ifCond req.user.role 'root'}} --}}
         <li class="navbar-item"><a class="navbar-link" href="/admin/index">dashboard</a></li>
         <li class="navbar-item">
           <a class="navbar-link active" href="#" data-popover="#Browse">Browse</a>
@@ -1106,6 +1124,7 @@ there.
             </ul>
           </div>
         </li>
+        {{!-- {{/ifCond}} --}}
       </ul>
     </div>
   </nav>
