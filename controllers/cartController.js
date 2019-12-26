@@ -21,7 +21,7 @@ let cartController = {
       cartItem.update({
         quantity: cartItem.quantity + 1
       }).then((cartItem) => {
-        res.redirect('/cart')
+        return res.redirect('back')
       })
     })
 
@@ -31,7 +31,7 @@ let cartController = {
       cartItem.update({
         quantity: cartItem.quantity - 1 >= 1 ? cartItem.quantity - 1 : 1
       }).then((cartItem) => {
-        res.redirect('/cart')
+        return res.redirect('back')
       })
     })
   },
@@ -39,7 +39,7 @@ let cartController = {
     CartItem.findByPk(req.params.id).then(cartItem => {
       cartItem.destroy()
         .then((cartItem) => {
-          res.redirect('/cart')
+          return res.redirect('back')
         })
     })
   },
