@@ -42,6 +42,10 @@ module.exports = (app, passport) => {
   app.post('/order', authenticated, orderController.postOrder)
   app.post('/order/:id/cancel', authenticated, orderController.cancelOrder)
 
+  // payment
+  app.get('/order/:id/payment', orderController.getPayment)
+  app.post('/newebpay/callback', orderController.newebpayCallback)
+
 
 
   app.get('/signup', userController.signUpPage)
