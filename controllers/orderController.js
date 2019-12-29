@@ -22,13 +22,13 @@ const transporter = nodemailer.createTransport({
 
 
 // 藍新金流串接
-const URL = 'https://077a855b.ngrok.io' // Local 要安裝 ngrok
+const URL = process.env.URL
 const MerchantID = process.env.MerchantID
 const HashKey = process.env.HashKey
 const HashIV = process.env.HashIV
 const PayGateWay = "https://ccore.spgateway.com/MPG/mpg_gateway"
-const ReturnURL = URL + "/spgateway/callback?from=ReturnURL"
-const NotifyURL = URL + "/spgateway/callback?from=NotifyURL"
+const ReturnURL = URL + "/newebpay/callback?from=ReturnURL"
+const NotifyURL = URL + "/newebpay/callback?from=NotifyURL"
 const ClientBackURL = URL + "/orders"
 
 function genDataChain(TradeInfo) {
@@ -37,6 +37,15 @@ function genDataChain(TradeInfo) {
     results.push(`${kv[0]}=${kv[1]}`);
   }
   return results.join("&");
+}
+
+function create_mpg_aes_decrypt(TradeInfo) {
+  let decrypt = crypto.createDecipheriv("aes256", HashKey, HashIV);
+  decrypt.setAutoPadding(false);
+  let text = decrypt.update(TradeInfo, "hex", "utf8");
+  let plainText = text + decrypt.final("utf8");
+  let result = plainText.replace(/[\x00-\x20]+/g, "");
+  return result;
 }
 
 function create_mpg_aes_encrypt(TradeInfo) {
@@ -193,10 +202,13 @@ let orderController = {
 
     Order.findByPk(req.params.id).then(order => {
 
-      const tradeInfo = getTradeInfo(order.amount, '產品名稱', 'v123582@gmail.com')
-      return res.render('payment', {
-        tradeInfo: tradeInfo,
-        order: order
+      const tradeInfo = getTradeInfo(order.amount, process.env.SHOP_NAME, req.user.email)
+
+      order.update({
+        ...req.body,
+        sn: tradeInfo.MerchantOrderNo,
+      }).then(order => {
+        res.render('payment', { order, tradeInfo })
       })
 
     })
@@ -204,8 +216,31 @@ let orderController = {
   },
   newebpayCallback: (req, res) => {
     console.log('===== newebpayCallback =====')
+    console.log(req.method)
+    console.log(req.query)
     console.log(req.body)
     console.log('==========')
+
+
+    const data = JSON.parse(create_mpg_aes_decrypt(req.body.TradeInfo))
+
+    console.log('===== newebpayCallback: create_mpg_aes_decrypt data =====')
+    console.log(data)
+    console.log(data['Result']['MerchantOrderNo'])
+
+    return Order.findAll({ where: { sn: data['Result']['MerchantOrderNo'] } })
+      .then(orders => {
+        orders[0].update({
+          ...req.body,
+          payment_status: 1,
+        }).then(order => {
+          return res.redirect('/orders')
+        })
+      })
+
+
+
+
 
     return res.redirect('back')
 
