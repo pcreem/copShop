@@ -202,7 +202,7 @@ let orderController = {
 
     Order.findByPk(req.params.id).then(order => {
 
-      const tradeInfo = getTradeInfo(order.amount, process.env.SHOP_NAME, req.user.email)
+      const tradeInfo = getTradeInfo(order.amount, process.env.PRODUCT_NAME, req.user.email)
 
       order.update({
         ...req.body,
