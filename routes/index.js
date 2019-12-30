@@ -83,7 +83,20 @@ module.exports = (app, passport) => {
   app.get('/admin/create/products', adminController.createProduct)
   app.post('/admin/products', upload.single('image'), adminController.postProduct)
   app.get('/admin/products/:id/edit', adminController.editProduct)
-  app.put('/admin/products/:id', upload.single('image'),adminController.putProduct)
+  app.put('/admin/products/:id', upload.single('image'), adminController.putProduct)
   app.delete('/admin/products/:id', adminController.deleteProduct)
+
+  app.get('/admin/categories', adminController.getCategories)
+  app.post('/admin/categories', adminController.postCategory)
+  app.get('/admin/categories/:id/edit', adminController.getCategories)
+  app.put('/admin/categories/:id', adminController.putCategory)
+  app.delete('/admin/categories/:id', adminController.deleteCategory)
+
+  app.get('/admin/populations', adminController.getPopulations)
+  app.post('/admin/populations', adminController.postPopulation)
+  app.get('/admin/populations/:id/edit', adminController.getPopulations)
+  app.put('/admin/populations/:id', adminController.putPopulation)
+  app.delete('/admin/populations/:id', adminController.deletePopulation)
+
 
 }

@@ -577,7 +577,7 @@ are based on 10px sizing. So basically 1.5rem = 15px :) */
     /* Clearing
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
-    /* Self Clearing Goodness */
+    /* Self Clearing Goodness   */
     .container:after,
     .row:after,
     .u-cf {
@@ -1038,30 +1038,13 @@ there.
 
 <body>
 
-{{!-- <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-    <h5 class="my-0 mr-md-auto font-weight-normal">
-      <a href="/">AC Shop</a>
-    </h5>
-    <nav class="my-2 my-md-0 mr-md-3">
-      <a class="p-2 text-dark" href="/cart">Cart</a>
-      <a class="p-2 text-dark" href="/orders">Orders</a>
-      <a class="p-2 text-dark" href="/signin">SignIn</a>
-    </nav>
-  </div> --}}
-
   <br>
   <div class="navbar-spacer"></div>
   <nav class="navbar">
     <div class="container">
       <ul class="navbar-list">
         <li class="navbar-item"><a class="navbar-link" href="/">Shop</a></li>
-       
-          <li class="navbar-item"><a class="navbar-link" href="/cart">Cart</a></li>
-          <li class="navbar-item"><a class="navbar-link" href="/orders">Orders</a></li>
-          <li class="navbar-item"><a class="navbar-link" href="/signin">SignIn</a></li>
-       </ul>
-       <ul class="navbar-list">
-        {{!-- {{#ifCond req.user.role 'root'}} --}}
+        {{!-- {{#ifCond user.role 'root'}} --}}
         <li class="navbar-item"><a class="navbar-link" href="/admin/index">dashboard</a></li>
         <li class="navbar-item">
           <a class="navbar-link active" href="#" data-popover="#Browse">Browse</a>
@@ -1079,6 +1062,9 @@ there.
               <li class="popover-item">
                 <a class="popover-link" href="/admin/products">Products</a>
               </li>
+              <li class="popover-item">
+                <a class="popover-link" href="/admin/categories">Categories</a>
+              </li>
             </ul>
           </div>
         </li>
@@ -1092,39 +1078,45 @@ there.
               <li class="popover-item">
                 <a class="popover-link" href="/admin/create/products">Products</a>
               </li>
-              <li class="popover-item">
+              {{!-- <li class="popover-item">
                 <a class="popover-link" href="/admin/create/categories">Categories</a>
-              </li>
+              </li> --}}
             </ul>
           </div>
         </li>
         <li class="navbar-item"><a class="navbar-link" href="/admin/line">line</a></li>
-        <li class="navbar-item">
-          <a class="navbar-link" href="#" data-popover="#moreNavPopover">More</a>
-          <div id="moreNavPopover" class="popover">
-            <ul class="popover-list">
-              <li class="popover-item">
-                <a class="popover-link" href="https://github.com/pcreem/copShop">On Github</a>
-              </li>
-              <li class="popover-item">
-                <a class="popover-link" href="https://github.com/dhg/Skeleton#browser-support">Browsers</a>
-              </li>
-              <li class="popover-item">
-                <a class="popover-link" href="https://github.com/dhg/Skeleton#license">License</a>
-              </li>
-              <li class="popover-item">
-                <a class="popover-link" href="https://github.com/dhg/Skeleton#extensions">Extensions</a>
-              </li>
-              <li class="popover-item">
-                <a class="popover-link" href="https://github.com/dhg/Skeleton/releases">Versions</a>
-              </li>
-              <li class="popover-item">
-                <a class="popover-link" href="https://github.com/dhg/Skeleton#colophon">Colophon</a>
-              </li>
-            </ul>
-          </div>
-        </li>
-        {{!-- {{/ifCond}} --}}
+        {{!-- <li class="navbar-item">
+                  <a class="navbar-link" href="#" data-popover="#moreNavPopover">More</a>
+                  <div id="moreNavPopover" class="popover">
+                    <ul class="popover-list">
+                      <li class="popover-item">
+                        <a class="popover-link" href="https://github.com/pcreem/copShop">On Github</a>
+                      </li>
+                      <li class="popover-item">
+                        <a class="popover-link" href="https://github.com/dhg/Skeleton#browser-support">Browsers</a>
+                      </li>
+                      <li class="popover-item">
+                        <a class="popover-link" href="https://github.com/dhg/Skeleton#license">License</a>
+                      </li>
+                      <li class="popover-item">
+                        <a class="popover-link" href="https://github.com/dhg/Skeleton#extensions">Extensions</a>
+                      </li>
+                      <li class="popover-item">
+                        <a class="popover-link" href="https://github.com/dhg/Skeleton/releases">Versions</a>
+                      </li>
+                      <li class="popover-item">
+                        <a class="popover-link" href="https://github.com/dhg/Skeleton#colophon">Colophon</a>
+                      </li>
+                    </ul>
+                  </div>
+                </li> --}}
+
+        {{!-- {{else}}
+        <li class="navbar-item"><a class="navbar-link" href="/cart">Cart</a></li>
+        <li class="navbar-item"><a class="navbar-link" href="/orders">Orders</a></li>
+        {{/ifCond}}
+        <li class="navbar-item"><a class="navbar-link" href="/signin">SignIn</a></li>
+        <li class="navbar-item"><a class="navbar-link" href="/logout">LogOut</a></li> --}}
       </ul>
     </div>
   </nav>
