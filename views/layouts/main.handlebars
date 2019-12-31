@@ -38,6 +38,10 @@
       <a class="p-2 text-dark" href="/cart">Cart</a>
       <a class="p-2 text-dark" href="/orders">Orders</a>
       <a class="p-2 text-dark" href="/signin">SignIn</a>
+      {{#if user}}
+      <a class="p-2 text-dark" href="/users/{{user.id}}">Hi, {{user.name}}</a>
+      {{/if}}
+
     </nav>
   </div>
 

@@ -12,6 +12,7 @@ module.exports = {
       name: 'root',
       tel: '',
       address: '',
+      image: '',
       createdAt: new Date(),
       updatedAt: new Date()
     }, {
@@ -21,6 +22,7 @@ module.exports = {
       name: 'user1',
       tel: faker.phone.phoneNumber(),
       address: faker.address.streetAddress(),
+      image: '',
       createdAt: new Date(),
       updatedAt: new Date()
     }, {
@@ -30,6 +32,7 @@ module.exports = {
       name: 'user2',
       tel: faker.phone.phoneNumber(),
       address: faker.address.streetAddress(),
+      image: '',
       createdAt: new Date(),
       updatedAt: new Date()
     }], {})
