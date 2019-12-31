@@ -169,6 +169,7 @@ let orderController = {
               text: `${order.id} 訂單成立`,
             }
 
+            // 訂單成立通知信
             transporter.sendMail(mailOptions, function (error, info) {
               if (error) {
                 console.log(error)
@@ -194,6 +195,23 @@ let orderController = {
         shipping_status: "-1",
         payment_status: "-1"
       }).then(() => {
+
+        var mailOptions = {
+          from: GMAIL_ACCOUNT,
+          to: req.user.email,
+          subject: `${order.id} 訂單已取消`,
+          text: `${order.id} 訂單已取消`,
+        }
+
+        // 訂單取消通知信
+        transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+            console.log(error)
+          } else {
+            console.log('Email sent: ' + info.response);
+          }
+        })
+
         return res.redirect('back')
       })
     })
@@ -234,17 +252,28 @@ let orderController = {
           ...req.body,
           payment_status: 1,
         }).then(order => {
+
+
+          var mailOptions = {
+            from: GMAIL_ACCOUNT,
+            to: req.user.email,
+            subject: `${order.id} 訂單已付款成功`,
+            text: `${order.id} 訂單已付款成功`,
+          }
+
+          // 訂單已付款通知信
+          transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+              console.log(error)
+            } else {
+              console.log('Email sent: ' + info.response);
+            }
+          })
+
+
           return res.redirect('/orders')
         })
       })
-
-
-
-
-
-    return res.redirect('back')
-
-
   },
 }
 
