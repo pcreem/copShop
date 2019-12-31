@@ -34,6 +34,8 @@
         width: 85%;
         padding: 0;
       }
+
+
     }
 
     /* For devices larger than 550px */
@@ -256,6 +258,8 @@ are based on 10px sizing. So basically 1.5rem = 15px :) */
       line-height: 1.6;
       letter-spacing: 0;
     }
+
+
 
     /* Larger than phablet */
     @media (min-width: 550px) {
@@ -577,7 +581,7 @@ are based on 10px sizing. So basically 1.5rem = 15px :) */
     /* Clearing
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
-    /* Self Clearing Goodness   */
+    /* Self Clearing Goodness */
     .container:after,
     .row:after,
     .u-cf {
@@ -776,7 +780,7 @@ there.
     }
 
     /* Larger than tablet */
-    @media (min-width: 750px) {
+    @media (min-width: 768px) {
 
       /* Navbar */
       .navbar+.docs-section {
@@ -932,6 +936,64 @@ there.
       .popover-item:first-child .popover-link:hover:after {
         border-bottom-color: #33C3F0;
       }
+
+
+    }
+
+    @media (max-width: 767px) {
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 80%;
+        background-color: #222;
+        z-index: 80;
+      }
+
+      .menu-button {
+        float: right;
+        font-size: 25px;
+        line-height: 40px;
+        color: rgb(0, 0, 0);
+        background: transparent;
+        padding: 0 0 0 15px;
+        border: 0;
+      }
+
+      .menu-button-checkbox {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 52px;
+        height: 40px;
+        margin: 0 -15px 0 0;
+        opacity: 0;
+      }
+
+      .menu-button-checkbox:checked~nav .nav {
+        display: block;
+      }
+
+      .nav {
+        display: none;
+        position: fixed;
+        top: 40px;
+        left: 0;
+        width: 100%;
+        background-color: #222;
+      }
+
+      .nav li {
+        display: block;
+        text-align: center;
+        padding: 15px 0;
+        border-bottom: 1px solid #333;
+      }
+
+      .nav li a {
+        padding: 20px 12px;
+        color: #ffffff;
+      }
     }
   </style>
 
@@ -1039,85 +1101,46 @@ there.
 <body>
 
   <br>
-  <div class="navbar-spacer"></div>
   <nav class="navbar">
     <div class="container">
       <ul class="navbar-list">
-        <li class="navbar-item"><a class="navbar-link" href="/">Shop</a></li>
-        {{!-- {{#ifCond user.role 'root'}} --}}
-        <li class="navbar-item"><a class="navbar-link" href="/admin/index">dashboard</a></li>
+        {{!-- <li class="navbar-item"><a class="navbar-link" href="/">Shop</a></li> --}}
+        <li class="navbar-item"><a style="margin:0px; padding:0px;" class="navbar-link" href="/"><img
+              class=" rounded mx-auto d-block" style="width: 60%; hight: auto; margin:0px; padding:0px;" align="left"
+              src="rlogo.jpg"></a>
+        </li>
         <li class="navbar-item">
-          <a class="navbar-link active" href="#" data-popover="#Browse">Browse</a>
-          <div id="Browse" class="popover">
+          <a class="navbar-link" href="#" data-popover="#Population">Population</a>
+          <div id="Population" class="popover">
             <ul class="popover-list">
+              {{#each populations}}
               <li class="popover-item">
-                <a class="popover-link" href="/admin/users">Users</a>
+                <a class="popover-link {{#ifCond this.id ../populationId}}active{{/ifCond}}"
+                  href="/?populationId={{this.id}}">{{this.population}}</a>
               </li>
-              <li class="popover-item">
-                <a class="popover-link" href="/admin/farmers">Farmers</a>
-              </li>
-              <li class="popover-item">
-                <a class="popover-link" href="/admin/orders">Orders</a>
-              </li>
-              <li class="popover-item">
-                <a class="popover-link" href="/admin/products">Products</a>
-              </li>
-              <li class="popover-item">
-                <a class="popover-link" href="/admin/categories">Categories</a>
-              </li>
+              {{/each}}
             </ul>
           </div>
         </li>
         <li class="navbar-item">
-          <a class="navbar-link" href="#" data-popover="#Create">Create</a>
-          <div id="Create" class="popover">
+          <a class="navbar-link" href="#" data-popover="#Category">Category</a>
+          <div id="Category" class="popover">
             <ul class="popover-list">
+              {{#each categories}}
               <li class="popover-item">
-                <a class="popover-link" href="/admin/create/users">Users/Farmers</a>
+                <a class="popover-link {{#ifCond this.id ../categoryId}}active{{/ifCond}}"
+                  href="/?categoryId={{this.id}}">{{this.name}}</a>
               </li>
-              <li class="popover-item">
-                <a class="popover-link" href="/admin/create/products">Products</a>
-              </li>
-              {{!-- <li class="popover-item">
-                <a class="popover-link" href="/admin/create/categories">Categories</a>
-              </li> --}}
+              {{/each}}
             </ul>
           </div>
         </li>
-        <li class="navbar-item"><a class="navbar-link" href="/admin/line">line</a></li>
-        {{!-- <li class="navbar-item">
-                  <a class="navbar-link" href="#" data-popover="#moreNavPopover">More</a>
-                  <div id="moreNavPopover" class="popover">
-                    <ul class="popover-list">
-                      <li class="popover-item">
-                        <a class="popover-link" href="https://github.com/pcreem/copShop">On Github</a>
-                      </li>
-                      <li class="popover-item">
-                        <a class="popover-link" href="https://github.com/dhg/Skeleton#browser-support">Browsers</a>
-                      </li>
-                      <li class="popover-item">
-                        <a class="popover-link" href="https://github.com/dhg/Skeleton#license">License</a>
-                      </li>
-                      <li class="popover-item">
-                        <a class="popover-link" href="https://github.com/dhg/Skeleton#extensions">Extensions</a>
-                      </li>
-                      <li class="popover-item">
-                        <a class="popover-link" href="https://github.com/dhg/Skeleton/releases">Versions</a>
-                      </li>
-                      <li class="popover-item">
-                        <a class="popover-link" href="https://github.com/dhg/Skeleton#colophon">Colophon</a>
-                      </li>
-                    </ul>
-                  </div>
-                </li> --}}
 
-        {{!-- {{else}}
         <li class="navbar-item"><a class="navbar-link" href="/cart">Cart</a></li>
-        <li class="navbar-item"><a class="navbar-link" href="/orders">Orders</a></li>
-        {{/ifCond}}
         <li class="navbar-item"><a class="navbar-link" href="/signin">SignIn</a></li>
-        <li class="navbar-item"><a class="navbar-link" href="/logout">LogOut</a></li> --}}
+
       </ul>
+
     </div>
   </nav>
   <br>
@@ -1125,16 +1148,14 @@ there.
     {{{body}}}
   </div>
 
-
-
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
     crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
     crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
     crossorigin="anonymous"></script>
 </body>
 

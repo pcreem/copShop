@@ -5,4 +5,9 @@ module.exports = {
     }
     return options.inverse(this);
   },
+
+  multply: function (a, b) {
+    let c = a * b
+    return c
+  }
 }

@@ -247,7 +247,7 @@ const adminController = {
       .then((order) => {
         order.update({
           name: req.body.name,
-          phone: req.body.pheon,
+          phone: req.body.phone,
           address: req.body.address,
           UserId: req.body.UserId,
           shipping_status: req.body.shipping_status,
