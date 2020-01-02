@@ -27,6 +27,10 @@ module.exports = (app, passport) => {
     res.redirect('/signin')
   }
 
+  app.get('/users/:id', authenticated, userController.getUser)
+  app.get('/users/:id/edit', authenticated, userController.editUser)
+  app.put('/users/:id', authenticated, upload.single('image'), userController.putUsers)
+
   // product
   app.get('/', productController.getProducts)
   app.get('/products/:id', productController.getProduct)
@@ -44,7 +48,9 @@ module.exports = (app, passport) => {
   app.post('/order', authenticated, orderController.postOrder)
   app.post('/order/:id/cancel', authenticated, orderController.cancelOrder)
 
-
+  // payment
+  app.get('/order/:id/payment', authenticated, orderController.getPayment)
+  app.post('/newebpay/callback', orderController.newebpayCallback)
 
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)

@@ -1038,88 +1038,23 @@ there.
 
 <body>
 
-  <br>
-  <div class="navbar-spacer"></div>
-  <nav class="navbar">
-    <div class="container">
-      <ul class="navbar-list">
-        <li class="navbar-item"><a class="navbar-link" href="/">Shop</a></li>
-        {{!-- {{#ifCond user.role 'root'}} --}}
-        <li class="navbar-item"><a class="navbar-link" href="/admin/index">dashboard</a></li>
-        <li class="navbar-item">
-          <a class="navbar-link active" href="#" data-popover="#Browse">Browse</a>
-          <div id="Browse" class="popover">
-            <ul class="popover-list">
-              <li class="popover-item">
-                <a class="popover-link" href="/admin/users">Users</a>
-              </li>
-              <li class="popover-item">
-                <a class="popover-link" href="/admin/farmers">Farmers</a>
-              </li>
-              <li class="popover-item">
-                <a class="popover-link" href="/admin/orders">Orders</a>
-              </li>
-              <li class="popover-item">
-                <a class="popover-link" href="/admin/products">Products</a>
-              </li>
-              <li class="popover-item">
-                <a class="popover-link" href="/admin/categories">Categories</a>
-              </li>
-            </ul>
-          </div>
-        </li>
-        <li class="navbar-item">
-          <a class="navbar-link" href="#" data-popover="#Create">Create</a>
-          <div id="Create" class="popover">
-            <ul class="popover-list">
-              <li class="popover-item">
-                <a class="popover-link" href="/admin/create/users">Users/Farmers</a>
-              </li>
-              <li class="popover-item">
-                <a class="popover-link" href="/admin/create/products">Products</a>
-              </li>
-              {{!-- <li class="popover-item">
-                <a class="popover-link" href="/admin/create/categories">Categories</a>
-              </li> --}}
-            </ul>
-          </div>
-        </li>
-        <li class="navbar-item"><a class="navbar-link" href="/admin/line">line</a></li>
-        {{!-- <li class="navbar-item">
-                  <a class="navbar-link" href="#" data-popover="#moreNavPopover">More</a>
-                  <div id="moreNavPopover" class="popover">
-                    <ul class="popover-list">
-                      <li class="popover-item">
-                        <a class="popover-link" href="https://github.com/pcreem/copShop">On Github</a>
-                      </li>
-                      <li class="popover-item">
-                        <a class="popover-link" href="https://github.com/dhg/Skeleton#browser-support">Browsers</a>
-                      </li>
-                      <li class="popover-item">
-                        <a class="popover-link" href="https://github.com/dhg/Skeleton#license">License</a>
-                      </li>
-                      <li class="popover-item">
-                        <a class="popover-link" href="https://github.com/dhg/Skeleton#extensions">Extensions</a>
-                      </li>
-                      <li class="popover-item">
-                        <a class="popover-link" href="https://github.com/dhg/Skeleton/releases">Versions</a>
-                      </li>
-                      <li class="popover-item">
-                        <a class="popover-link" href="https://github.com/dhg/Skeleton#colophon">Colophon</a>
-                      </li>
-                    </ul>
-                  </div>
-                </li> --}}
+  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+    <h5 class="my-0 mr-md-auto font-weight-normal">
+      <a href="/">AC Shop</a>
+    </h5>
+    <nav class="my-2 my-md-0 mr-md-3">
+      <a class="p-2 text-dark" href="/cart">Cart</a>
+      <a class="p-2 text-dark" href="/orders">Orders</a>
+      <a class="p-2 text-dark" href="/signin">SignIn</a>
+      {{#if user}}
+      <a class="p-2 text-dark" href="/users/{{user.id}}">Hi, {{user.name}}</a>
+      {{/if}}
 
-        {{!-- {{else}}
-        <li class="navbar-item"><a class="navbar-link" href="/cart">Cart</a></li>
-        <li class="navbar-item"><a class="navbar-link" href="/orders">Orders</a></li>
-        {{/ifCond}}
-        <li class="navbar-item"><a class="navbar-link" href="/signin">SignIn</a></li>
-        <li class="navbar-item"><a class="navbar-link" href="/logout">LogOut</a></li> --}}
-      </ul>
-    </div>
-  </nav>
+    </nav>
+  </div>
+
+
+       
   <br>
   <div class="container">
     {{{body}}}
