@@ -1,117 +1,60 @@
-<!-- Search form -->
 
-
-
-
-<div class="row">
-  <div class="col-md-9">
-    <ul class="nav nav-pills">
-      <li class="nav-item">
-        <a class="nav-link {{#ifCond '' categoryId}}active{{/ifCond}}" href="/?categoryId=">全部</a>
-      </li>
-      {{#each categories}}
-      <li class="nav-item">
-        <a class="nav-link {{#ifCond this.id ../categoryId}}active{{/ifCond}}"
-          href="/?categoryId={{this.id}}">{{this.name}}</a>
-      </li>
-      {{/each}}
-    </ul>
-  </div>
-  <div class="col-md-3">
-    <form action="/products/search" method="POST" class="mb-3 form-inline active-cyan-4">
-      <input id="search" name="search" class="form-control form-control-m mr-3" type="text" placeholder="Search"
-        aria-label="Search">
-      <button type="submit" class="btn btn-primary float-right">search</button>
-    </form>
-  </div>
-</div>
-
-<br />
-
-
-
-<div class="row">
-  <div class="col-md-9">
-    <div class="row">
-      {{#each products}}
-      <div class="col-md-4">
-        <div class="card mb-4 shadow-sm">
-          <img class="card-img-top" src="{{this.image}}" alt="Card image cap" width="286px" height="180px">
-          <div class="card-body">
-            <p class="card-text">
-              <a href="//{{this.id}}">
-                {{this.name}}
-              </a>
-            </p>
-            <span class="badge badge-secondary">{{this.Category.name}}</span>
-            <p class="card-text">{{this.description}}</p>
-
-
-            <div class="d-flex justify-content-between align-items-center">
-              <small class="text-muted">$ {{this.price}}</small>
-              <div class="btn-group">
-                <form action="/cart" method="POST">
-                  <input type="hidden" name="productId" value="{{this.id}}">
-                  <button type="submit" class="btn btn-sm btn-outline-secondary">Add to Cart</button>
-                </form>
-              </div>
-            </div>
+<div>
+  <form action="/products/search" method="POST" class="mb-3 form-inline active-cyan-4">
+    <input id="search" name="search" class="form-control col-md-7" type="text" placeholder="Search" aria-label="Search">
+  </form>
+  <div class="row">
+          <a class="card-title" href="/products/{{this.id}}">
+            {{this.name}}
+          </a>
+          <p class="card-text">{{this.Population.population}} {{this.Category.name}}</p>
+          <small class="text-muted">$ {{this.price}}</small>
+          <div class="card-footer">
+            <form action="/cart" method="POST">
+              <input type="hidden" name="productId" value="{{this.id}}">
+              <a href="#" onclick="this.parentNode.submit()">Add to Cart</a>
+            </form>
           </div>
+
         </div>
       </div>
-      {{/each}}
     </div>
+    {{/each}}
+
+
   </div>
-  <nav class="col-md-3 d-none d-md-block bg-light sidebar">
-    <div class="sidebar-sticky">
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-          {{#each cart.items}}
-          <div class="row no-gutters">
-            <div class="col-md-4" style="display: flex;align-items: center;">
-              <img src="{{this.image}}" class="card-img" alt="...">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">{{this.name}}</h5>
-                <p>${{this.price}}</p>
-                <div class="btn-group">
-                  <form action="/cartItem/{{this.CartItem.id}}/add" method="POST">
-                    <button type="submit" class="btn btn-sm btn-outline-secondary">+</button>
-                  </form>
-                  <span style="margin: 0 20px;">{{this.CartItem.quantity}}</span>
-                  <form action="/cartItem/{{this.CartItem.id}}/sub" method="POST">
-                    <button type="submit" class="btn btn-sm btn-outline-secondary">-</button>
-                  </form>
-
-                  <form action="/cartItem/{{this.CartItem.id}}?_method=DELETE" method="POST">
-                    <button type="submit" class="btn btn-link">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </form>
-
-                </div>
-              </div>
-            </div>
-          </div>
-          {{/each}}
-        </li>
-      </ul>
-      <hr>
-      <li class="list-group-item">
-        Total: ${{totalPrice}}
-        <a href="/cart"><button class="btn btn-primary">Go to Cart</button></a>
-      </li>
-
-    </div>
-  </nav>
 </div>
 <br />
 <br />
 <br />
 
+{{#if populationId}}
 <nav aria-label="Page navigation example">
-  <ul class="pagination">
+  <ul class="pagination pagination-lg justify-content-center">
+    <li class="page-item">
+      <a class="page-link" href="/?page={{prev}}&populationId={{populationId}}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    {{#each totalPage}}
+    {{#ifCond this ../page}}
+    <li class="page-item active"><a class="page-link" href="#">{{this}}</a></li>
+    {{else}}
+    <li class="page-item"><a class="page-link" href="/?page={{this}}&populationId={{../populationId}}">{{this}}</a></li>
+    {{/ifCond}}
+    {{/each}}
+    <li class="page-item">
+      <a class="page-link" href="/?page={{next}}&populationId={{populationId}}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+
+{{else}}
+<nav aria-label="Page navigation example">
+  <ul class="pagination pagination-lg justify-content-center">
     <li class="page-item">
       <a class="page-link" href="/?page={{prev}}&categoryId={{categoryId}}" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
@@ -124,10 +67,11 @@
     <li class="page-item"><a class="page-link" href="/?page={{this}}&categoryId={{../categoryId}}">{{this}}</a></li>
     {{/ifCond}}
     {{/each}}
-     <li class="page-item">
-    <a class="page-link" href="/?page={{next}}&categoryId={{categoryId}}" aria-label="Next">
-      <span aria-hidden="true">&raquo;</span>
-    </a>
+    <li class="page-item">
+      <a class="page-link" href="/?page={{next}}&categoryId={{categoryId}}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
     </li>
   </ul>
 </nav>
+{{/if}}

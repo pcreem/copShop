@@ -5,7 +5,7 @@ const faker = require('faker')
 module.exports = {
   up: (queryInterface, Sequelize) => {
     queryInterface.bulkInsert('Categories',
-      ['穀類', '豆類', '薯類', '蔬菜類', '水果類', '畜類', '禽類']
+      ['Grains', 'Vegetables', 'fruit']
         .map((item, index) =>
           ({
             //id: index + 1, 
@@ -22,10 +22,10 @@ module.exports = {
           name: faker.commerce.productName(),
           description: faker.commerce.product() + '/' + faker.commerce.productName(),
           price: Math.round(faker.commerce.price()),
-          image: faker.image.imageUrl(),
+          image: 'https://picsum.photos/200/300',
           createdAt: new Date(),
           updatedAt: new Date(),
-          CategoryId: Math.floor(Math.random() * 5) + 1,
+          CategoryId: Math.floor(Math.random() * 3) + 1,
           PopulationId: Math.floor(Math.random() * 10) + 1,
           FarmerId: Math.floor(Math.random() * 10) + 1
         })

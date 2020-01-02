@@ -1,9 +1,10 @@
 const db = require('../models')
 const Sequelize = require('sequelize');
 const Product = db.Product
+const Population = db.Population
 const Cart = db.Cart
 const Category = db.Category
-const pageLimit = 10
+const pageLimit = 9
 
 
 
@@ -12,6 +13,7 @@ const productController = {
     let offset = 0
     let whereQuery = {}
     let categoryId = ''
+    let populationId = ''
     if (req.query.page) {
       offset = (req.query.page - 1) * pageLimit
     }
@@ -21,8 +23,14 @@ const productController = {
       whereQuery['CategoryId'] = categoryId
     }
 
+    if (req.query.populationId) {
+      populationId = Number(req.query.populationId)
+      whereQuery['PopulationId'] = populationId
+    }
+
     Product.findAndCountAll({
-      order: [['id', 'ASC']], include: Category, where: whereQuery, offset: offset, limit: pageLimit
+      order: [['id', 'ASC']], include: [{ model: Category },
+      { model: Population },], where: whereQuery, offset: offset, limit: pageLimit
     }).then(result => {
       // data for pagination
       let page = Number(req.query.page) || 1
@@ -31,33 +39,39 @@ const productController = {
       let prev = page - 1 < 1 ? 1 : page - 1
       let next = page + 1 > pages ? pages : page + 1
       // clean up restaurant data
+
       const data = result.rows.map(r => ({
 
         ...r.dataValues,
         description: r.dataValues.description.substring(0, 50)
       }))
-      Category.findAll().then(categories => { // 取出 categoies 
 
-        // 在右側顯示 Cart
-        Cart.findByPk(req.session.cartId, { include: 'items' }).then(cart => {
-          cart = cart || { items: [] }
-          let totalPrice = cart.items.length > 0 ? cart.items.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+      Category.findAll().then(categories => {
 
-          return res.render('index', {
-            cart,
-            totalPrice,
-            products: data,
-            categories: categories,
-            categoryId: categoryId,
-            page: page,
-            totalPage: totalPage,
-            prev: prev,
-            next: next
+        Population.findAll().then(populations => {
+
+          // 在右側顯示 Cart
+          Cart.findByPk(req.session.cartId, { include: 'items' }).then(cart => {
+            cart = cart || { items: [] }
+            let totalPrice = cart.items.length > 0 ? cart.items.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+
+            return res.render('index', {
+              cart,
+              totalPrice,
+              products: data,
+              categories: categories,
+              categoryId: categoryId,
+              populations: populations,
+              populationId: populationId,
+              page: page,
+              totalPage: totalPage,
+              prev: prev,
+              next: next
+            })
+
           })
-
         })
       })
-
     })
   },
 
@@ -111,7 +125,7 @@ const productController = {
 
   getProduct: (req, res) => {
     return Product.findByPk(req.params.id, {
-      include: Category
+      include: [Category, Population]
     }).then(product => {
       return res.render('product', {
         product: product

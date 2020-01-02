@@ -6,11 +6,17 @@ const PAGE_OFFSET = 0;
 
 let cartController = {
   getCart: (req, res) => {
-    return Cart.findByPk(req.session.cartId, { include: 'items' }).then(cart => {
+    return Cart.findByPk(req.session.cartId, {
+      include: 'items'
+    }).then(cart => {
       cart = cart || { items: [] }
+      let subtotal = cart.items.length > 0 ? cart.items.map(d => d.price * d.CartItem.quantity) : 0
+      // console.log(subtotal)
       let totalPrice = cart.items.length > 0 ? cart.items.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+      //console.log(cart)
       return res.render('cart', {
         cart,
+        subtotal,
         totalPrice
       })
     })
