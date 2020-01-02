@@ -11,9 +11,9 @@ let cartController = {
     }).then(cart => {
       cart = cart || { items: [] }
       let subtotal = cart.items.length > 0 ? cart.items.map(d => d.price * d.CartItem.quantity) : 0
-      console.log(subtotal)
+      // console.log(subtotal)
       let totalPrice = cart.items.length > 0 ? cart.items.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
-      console.log(cart)
+      //console.log(cart)
       return res.render('cart', {
         cart,
         subtotal,

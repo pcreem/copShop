@@ -7,6 +7,7 @@
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
     integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
   <style type="text/css">
     /* Grid
@@ -1104,7 +1105,7 @@ there.
   <nav class="navbar">
     <div class="container">
       <ul class="navbar-list">
-        {{!-- <li class="navbar-item"><a class="navbar-link" href="/">Shop</a></li> --}}
+        {{!-- <li class="navbar-item"><a class="navbar-link" href="/"><b>Shan</b></a></li> --}}
         <li class="navbar-item"><a style="margin:0px; padding:0px;" class="navbar-link" href="/"><img
               class=" rounded mx-auto d-block" style="width: 60%; hight: auto; margin:0px; padding:0px;" align="left"
               src="rlogo.jpg"></a>
@@ -1113,12 +1114,36 @@ there.
           <a class="navbar-link" href="#" data-popover="#Population">Population</a>
           <div id="Population" class="popover">
             <ul class="popover-list">
-              {{#each populations}}
               <li class="popover-item">
-                <a class="popover-link {{#ifCond this.id ../populationId}}active{{/ifCond}}"
-                  href="/?populationId={{this.id}}">{{this.population}}</a>
+                <a class="popover-link " href="/?populationId=1">Atayal</a>
               </li>
-              {{/each}}
+              <li class="popover-item">
+                <a class="popover-link " href="/?populationId=2">Bunun</a>
+              </li>
+              <li class="popover-item">
+                <a class="popover-link " href="/?populationId=3">Tsou</a>
+              </li>
+              <li class="popover-item">
+                <a class="popover-link " href="/?populationId=4">Rukai</a>
+              </li>
+              <li class="popover-item">
+                <a class="popover-link " href="/?populationId=5">Paiwan</a>
+              </li>
+              <li class="popover-item">
+                <a class="popover-link " href="/?populationId=6">Amis</a>
+              </li>
+              <li class="popover-item">
+                <a class="popover-link " href="/?populationId=7">Pinuyumayan</a>
+              </li>
+              <li class="popover-item">
+                <a class="popover-link " href="/?populationId=8">Truku</a>
+              </li>
+              <li class="popover-item">
+                <a class="popover-link " href="/?populationId=9">Sediq</a>
+              </li>
+              <li class="popover-item">
+                <a class="popover-link " href="/?populationId=10">Tao</a>
+              </li>
             </ul>
           </div>
         </li>
@@ -1126,23 +1151,67 @@ there.
           <a class="navbar-link" href="#" data-popover="#Category">Category</a>
           <div id="Category" class="popover">
             <ul class="popover-list">
-              {{#each categories}}
               <li class="popover-item">
-                <a class="popover-link {{#ifCond this.id ../categoryId}}active{{/ifCond}}"
-                  href="/?categoryId={{this.id}}">{{this.name}}</a>
+                <a class="popover-link " href="/?categoryId=1">Grains</a>
               </li>
-              {{/each}}
+              <li class="popover-item">
+                <a class="popover-link " href="/?categoryId=2">Vegetables</a>
+              </li>
+              <li class="popover-item">
+                <a class="popover-link " href="/?categoryId=3">fruit</a>
+              </li>
             </ul>
           </div>
         </li>
-
+        {{#if user}}
         <li class="navbar-item"><a class="navbar-link" href="/cart">Cart</a></li>
+        <li class="navbar-item"> <a class="navbar-link" href="/orders">Orders</a></li>
+
+        <li class="navbar-item"> <a class="navbar-link" href="/users/{{user.id}}">Hi, {{user.name}}</a></li>
+        {{else}}
         <li class="navbar-item"><a class="navbar-link" href="/signin">SignIn</a></li>
+        {{/if}}
+
 
       </ul>
 
     </div>
   </nav>
+  <br>
+  <!-- Sidebar (hidden by default) -->
+
+  <nav class="w3-sidebar w3-bar-block w3-card w3-top w3-xlarge w3-animate-left"
+    style="display:none;z-index:2;width:40%;min-width:300px" id="mySidebar">
+
+    <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button">Close Menu</a>
+    {{#if user}}
+    <a onclick="w3_close()" class="w3-bar-item w3-button" href="/users/{{user.id}}"><i class="fas fa-user">
+      </i></a>
+    {{/if}}
+    <a onclick="w3_close()" class="w3-bar-item w3-button" href="/orders">Orders</a>
+    <a onclick="w3_close()" class="w3-bar-item w3-button" href="/cart">Cart</a>
+  </nav>
+
+
+  <!-- Top menu -->
+  <div class="w3-top">
+    <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
+      <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">☰</div>
+
+      <div class="w3-right w3-padding-16"><a class="navbar-link" href="/cart"><i class="fas fa-shopping-cart"> </i></a>
+      </div>
+      {{#if user}}
+      {{else}}
+      <div class="w3-right w3-padding-16"><a style="color:#222;" class="navbar-link" href="/signin">SignIn </a></div>
+      {{/if}}
+
+      <div class="w3-center w3-padding-16">
+        <a style="color:#222;  margin:0px; padding:0px; height: 10%;" href="/"><b>SHAN</b></a>
+
+      </div>
+    </div>
+  </div>
+
   <br>
   <div class="container">
     {{{body}}}
@@ -1157,6 +1226,16 @@ there.
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
     integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
     crossorigin="anonymous"></script>
+  <script>
+    // Script to open and close sidebar
+    function w3_open() {
+      document.getElementById("mySidebar").style.display = "block";
+    }
+
+    function w3_close() {
+      document.getElementById("mySidebar").style.display = "none";
+    }
+  </script>
 </body>
 
 </html>
