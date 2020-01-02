@@ -8,7 +8,7 @@ module.exports = {
       ['穀類', '豆類', '薯類', '蔬菜類', '水果類', '畜類', '禽類']
         .map((item, index) =>
           ({
-            id: index + 1,
+            //id: index + 1, 
             name: item,
             createdAt: new Date(),
             updatedAt: new Date()
@@ -16,9 +16,9 @@ module.exports = {
         ), {})
 
     return queryInterface.bulkInsert('Products',
-      Array.from({ length: 100 }).map((item, index) =>
+      Array.from({ length: 50 }).map((item, index) =>
         ({
-          id: index + 1,
+          //id: index + 1,
           name: faker.commerce.productName(),
           description: faker.commerce.product() + '/' + faker.commerce.productName(),
           price: Math.round(faker.commerce.price()),
@@ -26,7 +26,8 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
           CategoryId: Math.floor(Math.random() * 5) + 1,
-          PopulationId: Math.floor(Math.random() * 10) + 1
+          PopulationId: Math.floor(Math.random() * 10) + 1,
+          FarmerId: Math.floor(Math.random() * 10) + 1
         })
       ), {})
   },

@@ -25,6 +25,8 @@ module.exports = {
       },
       OrderId: {
         type: Sequelize.INTEGER
+      }, UserId: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

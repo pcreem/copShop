@@ -28,7 +28,7 @@ module.exports = {
     }, {
       email: 'user2@example.com',
       password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
-      role: 'farmer',
+      role: 'user',
       name: 'user2',
       tel: faker.phone.phoneNumber(),
       address: faker.address.streetAddress(),
