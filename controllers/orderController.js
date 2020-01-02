@@ -6,20 +6,32 @@ const Order = db.Order
 const OrderItem = db.OrderItem
 const Cart = db.Cart
 const CartItem = db.CartItem
+require('dotenv').config()
 
-const GMAIL_ACCOUNT = process.env.GMAIL_ACCOUNT
-const GMAIL_PASSWORD = process.env.GMAIL_PASSWORD
+// const GMAIL_ACCOUNT = process.env.GMAIL_ACCOUNT
+// const GMAIL_PASSWORD = process.env.GMAIL_PASSWORD
+
+// const transporter = nodemailer.createTransport({
+//   service: 'gmail',
+//   auth: {
+//     type: "login", // default
+//     user: GMAIL_ACCOUNT,
+//     pass: GMAIL_PASSWORD
+//   },
+// })
+
+const etherealUSER = process.env.etherealUSER
+const etherealPASS = process.env.etherealPASS
+
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.ethereal.email',
+  port: 587,
   auth: {
-    type: "login", // default
-    user: GMAIL_ACCOUNT,
-    pass: GMAIL_PASSWORD
-  },
-})
-
-
+    user: etherealUSER,
+    pass: etherealPASS
+  }
+});
 
 // 藍新金流串接
 const URL = process.env.URL
@@ -114,6 +126,7 @@ function getTradeInfo(Amt, Desc, email) {
 
 let orderController = {
   getOrders: (req, res) => {
+
     Order.findAll({
       where: { UserId: req.user.id },
       include: 'items'
@@ -163,8 +176,8 @@ let orderController = {
             //開啟低安全性設定，以後可改成oauth2 API 串接方式較為安全。
             // https://nodemailer.com/smtp/oauth2/#oauth-3lo
             var mailOptions = {
-              from: GMAIL_ACCOUNT,
-              to: req.user.email,
+              from: 'foo@example.com',
+              to: 'jasmin.ryan@ethereal.email',
               subject: `${order.id} 訂單成立`,
               text: `${order.id} 訂單成立`,
             }
@@ -197,8 +210,8 @@ let orderController = {
       }).then(() => {
 
         var mailOptions = {
-          from: GMAIL_ACCOUNT,
-          to: req.user.email,
+          from: 'foo@example.com',
+          to: 'jasmin.ryan@ethereal.email',
           subject: `${order.id} 訂單已取消`,
           text: `${order.id} 訂單已取消`,
         }
@@ -220,7 +233,7 @@ let orderController = {
 
     Order.findByPk(req.params.id).then(order => {
 
-      const tradeInfo = getTradeInfo(order.amount, process.env.PRODUCT_NAME, req.user.email)
+      const tradeInfo = getTradeInfo(order.amount, process.env.PRODUCT_NAME, 'jasmin.ryan@ethereal.email')
 
       order.update({
         ...req.body,
@@ -246,6 +259,7 @@ let orderController = {
     console.log(data)
     console.log(data['Result']['MerchantOrderNo'])
 
+
     return Order.findAll({ where: { sn: data['Result']['MerchantOrderNo'] } })
       .then(orders => {
         orders[0].update({
@@ -255,8 +269,8 @@ let orderController = {
 
 
           var mailOptions = {
-            from: GMAIL_ACCOUNT,
-            to: req.user.email,
+            from: 'foo@example.com',
+            to: 'jasmin.ryan@ethereal.email',
             subject: `${order.id} 訂單已付款成功`,
             text: `${order.id} 訂單已付款成功`,
           }

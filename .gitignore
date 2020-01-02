@@ -1,7 +1,7 @@
 node_modules/ 
 temp/
-upload/
+
 .DS_Store
-config/config.js
-models/index.js
+config/config.json
+ngrok.exe
 .env
