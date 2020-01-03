@@ -3,18 +3,11 @@ module.exports = (sequelize, DataTypes) => {
   const Product = sequelize.define('Product', {
     name: DataTypes.STRING,
     description: DataTypes.TEXT,
-    price: DataTypes.INTEGER,
-    image: DataTypes.STRING,
-    CategoryId: DataTypes.INTEGER,
-    PopulationId: DataTypes.INTEGER,
-    FarmerId: DataTypes.INTEGER,
-    discount: DataTypes.FLOAT
+    price: DataTypes.FLOAT,
+    image: DataTypes.STRING
   }, {});
   Product.associate = function (models) {
     // associations can be defined here
-    Product.belongsTo(models.Farmer)
-    Product.belongsTo(models.Category)
-    Product.belongsTo(models.Population)
     Product.belongsToMany(models.Cart, {
       as: 'carts',
       through: {
@@ -22,14 +15,13 @@ module.exports = (sequelize, DataTypes) => {
       },
       foreignKey: 'ProductId'
     });
-
     Product.belongsToMany(models.Order, {
-      through: models.OrderItem,
-      foreignKey: 'ProductId',
-      as: 'orders'
+      as: 'orders',
+      through: {
+        model: models.OrderItem, unique: false
+      },
+      foreignKey: 'ProductId'
     });
-
-
   };
   return Product;
 };

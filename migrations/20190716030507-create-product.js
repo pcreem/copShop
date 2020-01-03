@@ -15,41 +15,11 @@ module.exports = {
         type: Sequelize.TEXT
       },
       price: {
-        type: Sequelize.INTEGER
+        type: Sequelize.FLOAT
       },
       image: {
         type: Sequelize.STRING
       },
-
-      CategoryId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        reference: {
-          model: 'Categories',
-          key: 'id'
-        }
-      },
-      PopulationId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        reference: {
-          model: 'Populations',
-          key: 'id'
-        }
-      },
-      FarmerId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        reference: {
-          model: 'Farmers',
-          key: 'id'
-        }
-      },
-
-      discount: {
-        type: Sequelize.FLOAT
-      },
-
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
