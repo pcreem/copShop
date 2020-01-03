@@ -1,10 +1,9 @@
-'use strict'
+'use strict';
 const bcrypt = require('bcrypt-nodejs')
 const faker = require('faker')
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    // generate user seed data
     return queryInterface.bulkInsert('Users', [{
       email: 'root@example.com',
       password: bcrypt.hashSync('123', bcrypt.genSaltSync(10), null),
@@ -36,10 +35,9 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date()
     }], {})
-
   },
 
   down: (queryInterface, Sequelize) => {
     return queryInterface.bulkDelete('Users', null, {})
   }
-}
+};

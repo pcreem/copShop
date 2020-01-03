@@ -52,7 +52,7 @@ let cartController = {
 
   postCart: (req, res) => {
     // console.log('heree ------ session')
-    // console.log(req.session)
+    console.log(req.session.cartId)
 
     //cookie 失效的時候 req.session.cartId 就是 undefine
     //這時就會再建一個新的購物車 cart
@@ -62,6 +62,7 @@ let cartController = {
       },
     }).spread(function (cart, created) {
       //尋找該購物車中的項目      
+      console.log(cart.id)
       return CartItem.findOrCreate({
         where: {
           CartId: cart.id,

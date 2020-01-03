@@ -20,11 +20,8 @@ module.exports = {
       amount: {
         type: Sequelize.INTEGER
       },
-      cost: {
-        type: Sequelize.INTEGER
-      },
       sn: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       shipping_status: {
         type: Sequelize.STRING

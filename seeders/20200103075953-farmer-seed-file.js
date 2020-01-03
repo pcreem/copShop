@@ -10,6 +10,7 @@ module.exports = {
           tel: faker.phone.phoneNumber(),
           address: faker.address.streetAddress(),
           line: faker.internet.userName(),
+          image: '',
           createdAt: new Date(),
           updatedAt: new Date()
         })

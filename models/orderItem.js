@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.INTEGER,
     quantity: DataTypes.INTEGER
   }, {});
-  OrderItem.associate = function (models) {
+  OrderItem.associate = function(models) {
     // associations can be defined here
   };
   return OrderItem;
