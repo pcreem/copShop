@@ -6,12 +6,14 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.FLOAT,
     image: DataTypes.STRING,
     CategoryId: DataTypes.INTEGER,
-    PopulationId: DataTypes.INTEGER
+    PopulationId: DataTypes.INTEGER,
+    FarmerId: DataTypes.INTEGER
   }, {});
   Product.associate = function (models) {
     // associations can be defined here
     Product.belongsTo(models.Category)
     Product.belongsTo(models.Population)
+    Product.belongsTo(models.Farmer)
     Product.belongsToMany(models.Cart, {
       as: 'carts',
       through: {

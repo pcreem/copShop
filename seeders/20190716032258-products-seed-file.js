@@ -14,6 +14,7 @@ module.exports = {
           image: faker.image.imageUrl(),
           CategoryId: Math.floor(Math.random() * 3) + 1,
           PopulationId: Math.floor(Math.random() * 10) + 1,
+          FarmerId: Math.floor(Math.random() * 10) + 1,
           createdAt: new Date(),
           updatedAt: new Date(),
         })
