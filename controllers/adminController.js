@@ -27,7 +27,7 @@ const adminController = {
       let productA = []
       let paidarr = []
       for (let i = 0; i < orders.length; i++) {
-        if (orders[i].payment_status == 'paid') {
+        if (orders[i].payment_status == 1) {
           paidarr.push('1')
           for (let a = 0; a < orders[i].items.length; a++) {
             let product = {};
@@ -60,7 +60,7 @@ const adminController = {
           [sequelize.fn('sum', sequelize.col('cost')), 'total_cost'],
         ],
         where: {
-          payment_status: 'paid'
+          payment_status: '1'
         },
         group: ['UserId'],
 
