@@ -3,13 +3,10 @@ const productController = require('../controllers/productController.js')
 const cartController = require('../controllers/cartController.js')
 const orderController = require('../controllers/orderController.js')
 
-
 const adminController = require('../controllers/adminController.js')
 
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
-
-
 
 module.exports = (app, passport) => {
   const authenticated = (req, res, next) => {
@@ -104,5 +101,57 @@ module.exports = (app, passport) => {
   app.put('/admin/populations/:id', adminController.putPopulation)
   app.delete('/admin/populations/:id', adminController.deletePopulation)
 
+
+  const db = require('../models')
+  const Line = db.Line
+  const linebot = require('linebot');
+  const bot = linebot({
+    channelId: process.env.ChannelId,
+    channelSecret: process.env.ChannelSecret,
+    channelAccessToken: process.env.ChannelAccessToken
+  });
+  const linebotParser = bot.parser();
+
+  var imgur = require('imgur');
+  const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
+
+  imgur.setClientId(IMGUR_CLIENT_ID);
+  imgur.getClientId();
+
+  bot.on('message', function (event) {
+    console.log(event.message.type)
+    if (event.message.type == 'text'){
+      event.source.profile().then(function (profile) {
+        Line.create({
+        usersn: profile.userId,
+        name: profile.displayName,
+        description: event.message.text
+        })
+        event.reply(`${profile.displayName} thanks, I got your message`)
+      });
+      
+    }else if (event.message.type == 'image'){
+      event.source.profile().then(function (profile) {
+        event.message.content().then(function (content) {
+        imgur.uploadBase64(content.toString('base64'))
+          .then(function (json) {
+            Line.create({
+              usersn: profile.userId,
+              name: profile.displayName,
+              image: json.data.link
+              })
+            event.reply(`${profile.displayName} thanks, I got your image`)
+          })
+          .catch(function (err) {
+            console.error(err.message);
+          });
+        });        
+      });
+    }else{
+      event.reply('please upload image or text')
+    }
+  });
+
+  app.post('/linebotParser', linebotParser);
 
 }

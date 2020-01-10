@@ -1,6 +1,6 @@
 const db = require('../models')
 require('dotenv').config()
-const imgur = require('imgur-node-api')
+const imgurnodeapi = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const Product = db.Product
 const Category = db.Category
@@ -328,8 +328,8 @@ const adminController = {
   postProduct: (req, res) => {
     const { file } = req
     if (file) {
-      imgur.setClientID(IMGUR_CLIENT_ID);
-      imgur.upload(file.path, (err, img) => {
+      imgurnodeapi.setClientID(IMGUR_CLIENT_ID);
+      imgurnodeapi.upload(file.path, (err, img) => {
         return Product.create({
           name: req.body.name,
           description: req.body.description,
@@ -376,8 +376,8 @@ const adminController = {
 
     const { file } = req
     if (file) {
-      imgur.setClientID(IMGUR_CLIENT_ID);
-      imgur.upload(file.path, (err, img) => {
+      imgurnodeapi.setClientID(IMGUR_CLIENT_ID);
+      imgurnodeapi.upload(file.path, (err, img) => {
         return Product.findByPk(req.params.id)
           .then((product) => {
             product.update({
@@ -491,7 +491,7 @@ const adminController = {
       return res.redirect('back')
     } else {
       return Population.create({
-        population: req.body.population
+        population: req.body.name
       })
         .then((population) => {
           res.redirect('/admin/populations')
@@ -521,7 +521,6 @@ const adminController = {
           })
       })
   }
-
 }
 module.exports = adminController
 
