@@ -5,6 +5,7 @@ const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const Product = db.Product
 const Category = db.Category
 const User = db.User
+const Line = db.Line
 const Farmer = db.Farmer
 const Payment = db.Payment
 const Order = db.Order
@@ -520,7 +521,24 @@ const adminController = {
             res.redirect('/admin/populations')
           })
       })
-  }
+  },
+  getLines: (req, res) => {
+    return Line.findAll().then((lines) => {
+      lines = lines.map(line => ({
+        ...line.dataValues,
+      }))
+      return res.render('admin/lines', { lines: lines })
+    })
+  },
+  deleteLine: (req, res) => {
+    return Line.findByPk(req.params.id)
+      .then((line) => {
+        line.destroy()
+          .then((line) => {
+            res.redirect('/admin/lines')
+          })
+      })
+  },
 }
 module.exports = adminController
 

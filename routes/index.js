@@ -101,6 +101,8 @@ module.exports = (app, passport) => {
   app.put('/admin/populations/:id', adminController.putPopulation)
   app.delete('/admin/populations/:id', adminController.deletePopulation)
 
+  app.get('/admin/lines', adminController.getLines)
+  app.delete('/admin/lines/:id', adminController.deleteLine)
 
   const db = require('../models')
   const Line = db.Line
