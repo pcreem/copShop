@@ -15,8 +15,8 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date()
     }, {
-      email: 'user1@example.com',
-      password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
+      email: 'mae21@ethereal.email',
+      password: bcrypt.hashSync('f6aGSHNg8u6CfubYH8', bcrypt.genSaltSync(10), null),
       role: 'user',
       name: 'user1',
       tel: faker.phone.phoneNumber(),
@@ -25,8 +25,8 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date()
     }, {
-      email: 'user2@example.com',
-      password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
+      email: 'elyse.hilpert@ethereal.email',
+      password: bcrypt.hashSync('qkr7ndukr4zSGhcmrN', bcrypt.genSaltSync(10), null),
       role: 'user',
       name: 'user2',
       tel: faker.phone.phoneNumber(),

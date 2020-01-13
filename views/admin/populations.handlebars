@@ -4,12 +4,12 @@
 
 {{#if population}}
 <form action="/admin/populations/{{population.id}}?_method=PUT" method="POST">
-  <input type="text" placeholder="population" name="population" value="{{population.population}}">
+  <input type="text" placeholder="name" name="name" value="{{population.name}}">
   <button type="submit">Update</button>
 </form>
 {{else}}
 <form action="/admin/populations" method="POST">
-  <input type="text" placeholder="population" name="population">
+  <input type="text" placeholder="name" name="name">
   <button type="submit">Create</button>
 </form>
 {{/if}}
@@ -28,7 +28,7 @@
       {{#each populations}}
       <tr>
         <td>{{this.id}}</td>
-        <td>{{this.population}}</td>
+        <td>{{this.name}}</td>
         <td><a href="/admin/populations/{{this.id}}/edit">edit</a></td> 
         <td><form action="/admin/populations/{{this.id}}?_method=DELETE" method="POST" style="display: inline; ">
           <a href="#" onclick="this.parentNode.submit()">delete</a>

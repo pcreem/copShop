@@ -111,9 +111,9 @@ const adminController = {
   getUserdetail: (req, res) => {
     return User.findByPk(req.params.id, {
       include: { model: Order, include: { model: Product, as: 'items' } },
-    }).then((user) => {
-      user = user.dataValues
-      return res.render('admin/userdetail', { user: user })
+    }).then((userone) => {
+      userone = userone.dataValues
+      return res.render('admin/userdetail', { userone: userone })
     })
   },
   createUser: (req, res) => {
@@ -132,8 +132,8 @@ const adminController = {
       })
   },
   editUser: (req, res) => {
-    return User.findByPk(req.params.id).then(user => {
-      return res.render('admin/createUser', { user: user })
+    return User.findByPk(req.params.id).then(userone => {
+      return res.render('admin/createUser', { userone: userone })
     })
   },
   putUser: (req, res) => {
@@ -174,8 +174,15 @@ const adminController = {
     return Farmer.findByPk(req.params.id, {
       include: { model: Product, where: { FarmerId: req.params.id } },
     }).then((farmer) => {
-      farmer = farmer.dataValues
-      return res.render('admin/farmerdetail', { farmer: farmer })
+      if (farmer) {
+        farmer = farmer.dataValues
+        return res.render('admin/farmerdetail', { farmer: farmer })
+      } else {
+        Farmer.findByPk(req.params.id).then((farmer) => {
+          farmer = farmer.dataValues
+          return res.render('admin/farmerdetail', { farmer: farmer })
+        })
+      }
     })
   },
   createFarmer: (req, res) => {
@@ -336,9 +343,9 @@ const adminController = {
           description: req.body.description,
           price: req.body.price,
           image: file ? img.data.link : product.image,
-          CategoryId: req.body.CategoryId,
-          PopulationId: req.body.PopulationId,
-          FarmerId: req.body.FarmerId
+          CategoryId: req.body.CategoryId ? req.body.CategoryId : undefined,
+          PopulationId: req.body.PopulationId ? req.body.PopulationId : undefined,
+          FarmerId: req.body.FarmerId ? req.body.FarmerId : undefined
         }).then((product) => {
           req.flash('success_messages', 'product was successfully created')
           return res.redirect('/admin/products')
@@ -350,10 +357,10 @@ const adminController = {
         name: req.body.name,
         description: req.body.description,
         price: req.body.price,
-        image: product.image,
-        CategoryId: req.body.CategoryId,
-        PopulationId: req.body.PopulationId,
-        FarmerId: req.body.FarmerId
+        image: undefined,
+        CategoryId: req.body.CategoryId ? req.body.CategoryId : undefined,
+        PopulationId: req.body.PopulationId ? req.body.PopulationId : undefined,
+        FarmerId: req.body.FarmerId ? req.body.FarmerId : undefined
       }).then((product) => {
         req.flash('success_messages', 'product was successfully created')
         return res.redirect('/admin/products')
@@ -374,7 +381,6 @@ const adminController = {
     })
   },
   putProduct: (req, res) => {
-
     const { file } = req
     if (file) {
       imgurnodeapi.setClientID(IMGUR_CLIENT_ID);
@@ -386,9 +392,9 @@ const adminController = {
               description: req.body.description,
               price: req.body.price,
               image: file ? img.data.link : product.image,
-              CategoryId: req.body.CategoryId,
-              PopulationId: req.body.PopulationId,
-              FarmerId: req.body.FarmerId
+              CategoryId: req.body.CategoryId ? req.body.CategoryId : undefined,
+              PopulationId: req.body.PopulationId ? req.body.PopulationId : undefined,
+              FarmerId: req.body.FarmerId ? req.body.FarmerId : undefined
             })
               .then((product) => {
                 req.flash('success_messages', 'product was successfully to update')
@@ -405,9 +411,9 @@ const adminController = {
             description: req.body.description,
             price: req.body.price,
             image: file ? img.data.link : product.image,
-            CategoryId: req.body.CategoryId,
-            PopulationId: req.body.PopulationId,
-            FarmerId: req.body.FarmerId
+            CategoryId: req.body.CategoryId ? req.body.CategoryId : undefined,
+            PopulationId: req.body.PopulationId ? req.body.PopulationId : undefined,
+            FarmerId: req.body.FarmerId ? req.body.FarmerId : undefined
           })
             .then((product) => {
               req.flash('success_messages', 'product was successfully to update')
@@ -487,12 +493,12 @@ const adminController = {
     })
   },
   postPopulation: (req, res) => {
-    if (!req.body.population) {
+    if (!req.body.name) {
       req.flash('error_messages', 'name didn\'t exist')
       return res.redirect('back')
     } else {
       return Population.create({
-        population: req.body.name
+        name: req.body.name
       })
         .then((population) => {
           res.redirect('/admin/populations')
@@ -500,7 +506,7 @@ const adminController = {
     }
   },
   putPopulation: (req, res) => {
-    if (!req.body.population) {
+    if (!req.body.name) {
       req.flash('error_messages', 'name didn\'t exist')
       return res.redirect('back')
     } else {
