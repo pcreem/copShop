@@ -32,7 +32,7 @@
         {{#if product}}
         <option value="{{product.CategoryId}}" selected disabled>{{product.Category.name}}</option>
         {{else}}
-        <option value="" selected disabled>--please select--</option>
+        <option hidden disabled selected value> -- select an option -- </option>
         {{#each categories}}
         <option value="{{this.id}}">{{this.name}}</option>
         {{/each}}
@@ -46,7 +46,7 @@
         {{#if product}}
         <option value="{{product.PopulationId}}" selected disabled>{{product.Population.name}}</option>
         {{else}}
-        <option value="" selected disabled>--please select--</option>
+        <option hidden disabled selected value> -- select an option -- </option>
         {{#each populations}}
         <option value="{{this.id}}">{{this.name}}</option>
         {{/each}}
@@ -60,7 +60,7 @@
         {{#if product}}
         <option value="{{product.FarmerId}}" selected disabled>{{product.Farmer.name}}</option>
         {{else}}
-        <option value="" selected disabled>--please select--</option>
+        <option hidden disabled selected value> -- select an option -- </option>
         {{#each farmers}}
         <option value="{{this.id}}">{{this.name}}</option>
         {{/each}}

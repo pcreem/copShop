@@ -10,9 +10,9 @@ var cookieParser = require('cookie-parser');
 const app = express()
 const port = process.env.PORT || 3000
 
-// if (process.env.NODE_ENV !== 'production') {
-//   require('dotenv').config()
-// }
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 
 app.engine('handlebars', handlebars({
   defaultLayout: 'main',
@@ -40,7 +40,7 @@ app.use('/upload', express.static(__dirname + '/upload'))
 app.use((req, res, next) => {
   res.locals.success_messages = req.flash('success_messages')
   res.locals.error_messages = req.flash('error_messages')
-  //res.locals.user = req.user
+  res.locals.user = req.user
   next()
 })
 

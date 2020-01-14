@@ -334,38 +334,52 @@ const adminController = {
     })
   },
   postProduct: (req, res) => {
-    const { file } = req
-    if (file) {
-      imgurnodeapi.setClientID(IMGUR_CLIENT_ID);
-      imgurnodeapi.upload(file.path, (err, img) => {
+    Product.findAll().then(products => {
+      console.log(products.length)
+
+
+      const { file } = req
+      if (file) {
+        imgurnodeapi.setClientID(IMGUR_CLIENT_ID);
+        imgurnodeapi.upload(file.path, (err, img) => {
+          return Product.create({
+            id: products.length + 1,
+            name: req.body.name,
+            description: req.body.description,
+            price: req.body.price,
+            image: file ? img.data.link : null,
+            CategoryId: req.body.CategoryId,
+            PopulationId: req.body.PopulationId,
+            FarmerId: req.body.FarmerId
+          }).then((product) => {
+            req.flash('success_messages', 'product was successfully created')
+            return res.redirect('/admin/products')
+          }).catch(function (err) {
+            // print the error details
+            console.log(err);
+          });
+        })
+      }
+      else {
         return Product.create({
+          id: products.length + 1,
           name: req.body.name,
           description: req.body.description,
           price: req.body.price,
-          image: file ? img.data.link : product.image,
-          CategoryId: req.body.CategoryId ? req.body.CategoryId : undefined,
-          PopulationId: req.body.PopulationId ? req.body.PopulationId : undefined,
-          FarmerId: req.body.FarmerId ? req.body.FarmerId : undefined
+          image: null,
+          CategoryId: req.body.CategoryId,
+          PopulationId: req.body.PopulationId,
+          FarmerId: req.body.FarmerId
         }).then((product) => {
           req.flash('success_messages', 'product was successfully created')
           return res.redirect('/admin/products')
-        })
-      })
-    }
-    else {
-      return Product.create({
-        name: req.body.name,
-        description: req.body.description,
-        price: req.body.price,
-        image: undefined,
-        CategoryId: req.body.CategoryId ? req.body.CategoryId : undefined,
-        PopulationId: req.body.PopulationId ? req.body.PopulationId : undefined,
-        FarmerId: req.body.FarmerId ? req.body.FarmerId : undefined
-      }).then((product) => {
-        req.flash('success_messages', 'product was successfully created')
-        return res.redirect('/admin/products')
-      })
-    }
+        }).catch(function (err) {
+          // print the error details
+          console.log(err);
+        });
+      }
+
+    })
   },
   editProduct: (req, res) => {
     return Product.findByPk(req.params.id, {
@@ -381,6 +395,7 @@ const adminController = {
     })
   },
   putProduct: (req, res) => {
+
     const { file } = req
     if (file) {
       imgurnodeapi.setClientID(IMGUR_CLIENT_ID);
@@ -392,9 +407,9 @@ const adminController = {
               description: req.body.description,
               price: req.body.price,
               image: file ? img.data.link : product.image,
-              CategoryId: req.body.CategoryId ? req.body.CategoryId : undefined,
-              PopulationId: req.body.PopulationId ? req.body.PopulationId : undefined,
-              FarmerId: req.body.FarmerId ? req.body.FarmerId : undefined
+              CategoryId: req.body.CategoryId,
+              PopulationId: req.body.PopulationId,
+              FarmerId: req.body.FarmerId
             })
               .then((product) => {
                 req.flash('success_messages', 'product was successfully to update')
@@ -411,9 +426,9 @@ const adminController = {
             description: req.body.description,
             price: req.body.price,
             image: file ? img.data.link : product.image,
-            CategoryId: req.body.CategoryId ? req.body.CategoryId : undefined,
-            PopulationId: req.body.PopulationId ? req.body.PopulationId : undefined,
-            FarmerId: req.body.FarmerId ? req.body.FarmerId : undefined
+            CategoryId: req.body.CategoryId,
+            PopulationId: req.body.PopulationId,
+            FarmerId: req.body.FarmerId
           })
             .then((product) => {
               req.flash('success_messages', 'product was successfully to update')
