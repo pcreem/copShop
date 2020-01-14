@@ -3,6 +3,5 @@ temp/
 
 .DS_Store
 config/config.js
-models/index.js
-ngrok.exe
+
 .env
