@@ -1,4 +1,3 @@
-
 <h6 class="docs-header">User Detail</h6>
 <pre>
   <table class="u-full-width">
@@ -14,12 +13,12 @@
     </thead>
     <tbody>    
       <tr>
-        <td>{{user.id}}</td>
-        <td>{{user.name}}</td>
-        <td>{{user.email}}</td>
-        <td>{{user.address}}</td>
-        <td>{{user.tel}}</td>
-        <td>{{user.role}}</td>     
+        <td>{{userone.id}}</td>
+        <td>{{userone.name}}</td>
+        <td>{{userone.email}}</td>
+        <td>{{userone.address}}</td>
+        <td>{{userone.tel}}</td>
+        <td>{{userone.role}}</td>     
       </tr>
     </tbody>
   </table>
@@ -27,9 +26,9 @@
 
 
 <h6 class="docs-header">Order Lists</h6>
-{{#each user.Orders}}
+{{#each userone.Orders}}
 <div class="docs-section">
-<pre>
+  <pre>
 <table class="u-full-width">
   <thead>
     <tr>
@@ -82,4 +81,4 @@
 </pre>
 
 </div>
-  {{/each}}
+{{/each}}

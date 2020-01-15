@@ -11,7 +11,7 @@ module.exports = {
           name: faker.commerce.productName(),
           description: faker.commerce.product() + '/' + faker.commerce.productName(),
           price: faker.commerce.price(),
-          image: faker.image.imageUrl(),
+          image: 'https://picsum.photos/200/300',
           CategoryId: Math.floor(Math.random() * 3) + 1,
           PopulationId: Math.floor(Math.random() * 10) + 1,
           FarmerId: Math.floor(Math.random() * 10) + 1,

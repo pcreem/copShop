@@ -25,7 +25,7 @@
 <div class="docs-section">
   <h6 class="docs-header">Products Lists</h6>
 
-<pre>
+  <pre>
 <table class="u-full-width">
 
   <thead>
@@ -44,9 +44,9 @@
       <td>{{this.id}}</td>
       <td>{{this.name}}</td>
       <td>{{this.price}}</td>
-      <td><a href="/admin/protducts/{{this.id}}/detail">detail</a></td>
-      <td><a href="/admin/protducts/{{this.id}}/edit">edit</a></td> 
-      <td><form action="/admin/protducts/{{this.id}}?_method=DELETE" method="POST" style="display: inline; ">
+      <td><a href="/admin/products/{{this.id}}/detail">detail</a></td>
+      <td><a href="/admin/products/{{this.id}}/edit">edit</a></td> 
+      <td><form action="/admin/products/{{this.id}}?_method=DELETE" method="POST" style="display: inline; ">
       <a href="#" onclick="this.parentNode.submit()">delete</a>
       </form></td>   
     </tr>

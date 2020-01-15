@@ -1105,11 +1105,57 @@ there.
   <nav class="navbar">
     <div class="container">
       <ul class="navbar-list">
-        {{!-- <li class="navbar-item"><a class="navbar-link" href="/"><b>Shan</b></a></li> --}}
         <li class="navbar-item"><a style="margin:0px; padding:0px;" class="navbar-link" href="/"><img
               class=" rounded mx-auto d-block" style="width: 60%; hight: auto; margin:0px; padding:0px;" align="left"
               src="/upload/logo.png"></a>
         </li>
+
+
+
+        {{#ifCond user.role 'root'}}
+        <li class="navbar-item"><a class="navbar-link" href="/admin/index">dashboard</a></li>
+        <li class="navbar-item">
+          <a class="navbar-link" href="#" data-popover="#Browse">Browse</a>
+          <div id="Browse" class="popover">
+            <ul class="popover-list">
+              <li class="popover-item">
+                <a class="popover-link" href="/admin/users">Users</a>
+              </li>
+              <li class="popover-item">
+                <a class="popover-link" href="/admin/farmers">Farmers</a>
+              </li>
+              <li class="popover-item">
+                <a class="popover-link" href="/admin/orders">Orders</a>
+              </li>
+              <li class="popover-item">
+                <a class="popover-link" href="/admin/products">Products</a>
+              </li>
+              <li class="popover-item">
+                <a class="popover-link" href="/admin/categories">Categories</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="navbar-item">
+          <a class="navbar-link" href="#" data-popover="#Create">Create</a>
+          <div id="Create" class="popover">
+            <ul class="popover-list">
+              <li class="popover-item">
+                <a class="popover-link" href="/admin/create/users">Users/Farmers</a>
+              </li>
+              <li class="popover-item">
+                <a class="popover-link" href="/admin/create/products">Products</a>
+              </li>
+              {{!-- <li class="popover-item">
+                        <a class="popover-link" href="/admin/create/categories">Categories</a>
+                      </li> --}}
+            </ul>
+          </div>
+        </li>
+        <li class="navbar-item"><a class="navbar-link" href="/admin/lines">line</a></li>
+        <li class="navbar-item"> <a class="navbar-link" href="/users/{{user.id}}">Hi, {{user.name}}</a></li>
+        <li class="navbar-item"> <a class="navbar-link" href="/logout">Logout</a></li>
+        {{else}}
         <li class="navbar-item">
           <a class="navbar-link" href="#" data-popover="#Population">Population</a>
           <div id="Population" class="popover">
@@ -1163,18 +1209,20 @@ there.
             </ul>
           </div>
         </li>
-        {{#if user}}
+        {{/ifCond}}
+
+        {{#ifCond user.role 'user'}}
         <li class="navbar-item"><a class="navbar-link" href="/cart">Cart</a></li>
         <li class="navbar-item"> <a class="navbar-link" href="/orders">Orders</a></li>
 
         <li class="navbar-item"> <a class="navbar-link" href="/users/{{user.id}}">Hi, {{user.name}}</a></li>
-
         <li class="navbar-item"> <a class="navbar-link" href="/logout">Logout</a></li>
+        {{/ifCond}}
 
+        {{#if user}}
         {{else}}
         <li class="navbar-item"><a class="navbar-link" href="/signin">SignIn</a></li>
         {{/if}}
-
 
       </ul>
 

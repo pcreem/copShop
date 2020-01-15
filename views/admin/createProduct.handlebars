@@ -32,10 +32,10 @@
         {{#if product}}
         <option value="{{product.CategoryId}}" selected disabled>{{product.Category.name}}</option>
         {{else}}
-          <option value="" selected disabled>--please select--</option>
-          {{#each categories}}
-          <option value="{{this.id}}">{{this.name}}</option>
-          {{/each}}
+        <option hidden disabled selected value> -- select an option -- </option>
+        {{#each categories}}
+        <option value="{{this.id}}">{{this.name}}</option>
+        {{/each}}
         {{/if}}
       </select>
     </div>
@@ -43,28 +43,28 @@
     <div class="form-group">
       <label for="PopulationId">Population</label>
       <select class="form-control" id="PopulationId" name="PopulationId">
-      {{#if product}}
+        {{#if product}}
         <option value="{{product.PopulationId}}" selected disabled>{{product.Population.name}}</option>
         {{else}}
-        <option value="" selected disabled>--please select--</option>
+        <option hidden disabled selected value> -- select an option -- </option>
         {{#each populations}}
-        <option value="{{this.id}}">{{this.population}}</option>
+        <option value="{{this.id}}">{{this.name}}</option>
         {{/each}}
-      {{/if}}
+        {{/if}}
       </select>
     </div>
 
     <div class="form-group">
       <label for="FarmerId">Farmer</label>
       <select class="form-control" id="FarmerId" name="FarmerId">
-       {{#if product}}
+        {{#if product}}
         <option value="{{product.FarmerId}}" selected disabled>{{product.Farmer.name}}</option>
         {{else}}
-        <option value="" selected disabled>--please select--</option>
+        <option hidden disabled selected value> -- select an option -- </option>
         {{#each farmers}}
         <option value="{{this.id}}">{{this.name}}</option>
         {{/each}}
-      {{/if}} 
+        {{/if}}
       </select>
     </div>
 

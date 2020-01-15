@@ -1,10 +1,11 @@
 const db = require('../models')
 require('dotenv').config()
-const imgur = require('imgur-node-api')
+const imgurnodeapi = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const Product = db.Product
 const Category = db.Category
 const User = db.User
+const Line = db.Line
 const Farmer = db.Farmer
 const Payment = db.Payment
 const Order = db.Order
@@ -27,7 +28,7 @@ const adminController = {
       let productA = []
       let paidarr = []
       for (let i = 0; i < orders.length; i++) {
-        if (orders[i].payment_status == 'paid') {
+        if (orders[i].payment_status == 1) {
           paidarr.push('1')
           for (let a = 0; a < orders[i].items.length; a++) {
             let product = {};
@@ -60,7 +61,7 @@ const adminController = {
           [sequelize.fn('sum', sequelize.col('cost')), 'total_cost'],
         ],
         where: {
-          payment_status: 'paid'
+          payment_status: '1'
         },
         group: ['UserId'],
 
@@ -110,9 +111,9 @@ const adminController = {
   getUserdetail: (req, res) => {
     return User.findByPk(req.params.id, {
       include: { model: Order, include: { model: Product, as: 'items' } },
-    }).then((user) => {
-      user = user.dataValues
-      return res.render('admin/userdetail', { user: user })
+    }).then((userone) => {
+      userone = userone.dataValues
+      return res.render('admin/userdetail', { userone: userone })
     })
   },
   createUser: (req, res) => {
@@ -131,8 +132,8 @@ const adminController = {
       })
   },
   editUser: (req, res) => {
-    return User.findByPk(req.params.id).then(user => {
-      return res.render('admin/createUser', { user: user })
+    return User.findByPk(req.params.id).then(userone => {
+      return res.render('admin/createUser', { userone: userone })
     })
   },
   putUser: (req, res) => {
@@ -173,8 +174,15 @@ const adminController = {
     return Farmer.findByPk(req.params.id, {
       include: { model: Product, where: { FarmerId: req.params.id } },
     }).then((farmer) => {
-      farmer = farmer.dataValues
-      return res.render('admin/farmerdetail', { farmer: farmer })
+      if (farmer) {
+        farmer = farmer.dataValues
+        return res.render('admin/farmerdetail', { farmer: farmer })
+      } else {
+        Farmer.findByPk(req.params.id).then((farmer) => {
+          farmer = farmer.dataValues
+          return res.render('admin/farmerdetail', { farmer: farmer })
+        })
+      }
     })
   },
   createFarmer: (req, res) => {
@@ -326,38 +334,52 @@ const adminController = {
     })
   },
   postProduct: (req, res) => {
-    const { file } = req
-    if (file) {
-      imgur.setClientID(IMGUR_CLIENT_ID);
-      imgur.upload(file.path, (err, img) => {
+    Product.findAll().then(products => {
+      console.log(products.length)
+
+
+      const { file } = req
+      if (file) {
+        imgurnodeapi.setClientID(IMGUR_CLIENT_ID);
+        imgurnodeapi.upload(file.path, (err, img) => {
+          return Product.create({
+            id: products.length + 1,
+            name: req.body.name,
+            description: req.body.description,
+            price: req.body.price,
+            image: file ? img.data.link : null,
+            CategoryId: req.body.CategoryId,
+            PopulationId: req.body.PopulationId,
+            FarmerId: req.body.FarmerId
+          }).then((product) => {
+            req.flash('success_messages', 'product was successfully created')
+            return res.redirect('/admin/products')
+          }).catch(function (err) {
+            // print the error details
+            console.log(err);
+          });
+        })
+      }
+      else {
         return Product.create({
+          id: products.length + 1,
           name: req.body.name,
           description: req.body.description,
           price: req.body.price,
-          image: file ? img.data.link : product.image,
+          image: null,
           CategoryId: req.body.CategoryId,
           PopulationId: req.body.PopulationId,
           FarmerId: req.body.FarmerId
         }).then((product) => {
           req.flash('success_messages', 'product was successfully created')
           return res.redirect('/admin/products')
-        })
-      })
-    }
-    else {
-      return Product.create({
-        name: req.body.name,
-        description: req.body.description,
-        price: req.body.price,
-        image: product.image,
-        CategoryId: req.body.CategoryId,
-        PopulationId: req.body.PopulationId,
-        FarmerId: req.body.FarmerId
-      }).then((product) => {
-        req.flash('success_messages', 'product was successfully created')
-        return res.redirect('/admin/products')
-      })
-    }
+        }).catch(function (err) {
+          // print the error details
+          console.log(err);
+        });
+      }
+
+    })
   },
   editProduct: (req, res) => {
     return Product.findByPk(req.params.id, {
@@ -376,8 +398,8 @@ const adminController = {
 
     const { file } = req
     if (file) {
-      imgur.setClientID(IMGUR_CLIENT_ID);
-      imgur.upload(file.path, (err, img) => {
+      imgurnodeapi.setClientID(IMGUR_CLIENT_ID);
+      imgurnodeapi.upload(file.path, (err, img) => {
         return Product.findByPk(req.params.id)
           .then((product) => {
             product.update({
@@ -486,12 +508,12 @@ const adminController = {
     })
   },
   postPopulation: (req, res) => {
-    if (!req.body.population) {
+    if (!req.body.name) {
       req.flash('error_messages', 'name didn\'t exist')
       return res.redirect('back')
     } else {
       return Population.create({
-        population: req.body.population
+        name: req.body.name
       })
         .then((population) => {
           res.redirect('/admin/populations')
@@ -499,7 +521,7 @@ const adminController = {
     }
   },
   putPopulation: (req, res) => {
-    if (!req.body.population) {
+    if (!req.body.name) {
       req.flash('error_messages', 'name didn\'t exist')
       return res.redirect('back')
     } else {
@@ -520,8 +542,24 @@ const adminController = {
             res.redirect('/admin/populations')
           })
       })
-  }
-
+  },
+  getLines: (req, res) => {
+    return Line.findAll().then((lines) => {
+      lines = lines.map(line => ({
+        ...line.dataValues,
+      }))
+      return res.render('admin/lines', { lines: lines })
+    })
+  },
+  deleteLine: (req, res) => {
+    return Line.findByPk(req.params.id)
+      .then((line) => {
+        line.destroy()
+          .then((line) => {
+            res.redirect('/admin/lines')
+          })
+      })
+  },
 }
 module.exports = adminController
 
