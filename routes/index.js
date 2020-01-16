@@ -42,6 +42,7 @@ module.exports = (app, passport) => {
 
   // order
   app.get('/orders', authenticated, orderController.getOrders)
+  app.get('/order', authenticated, orderController.getOrder)
   app.post('/order', authenticated, orderController.postOrder)
   app.post('/order/:id/cancel', authenticated, orderController.cancelOrder)
 
