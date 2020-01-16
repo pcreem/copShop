@@ -18,7 +18,10 @@ let cartController = {
       let cartItemsLength = cart.items.length > 0 ? cart.items.length : ""
       let bgWarning = cart.items.length > 0 ? "bg-warning" : ""
 
+      let user = req.user
+
       return res.render('cart', {
+        user,
         cart,
         cartItemsLength,
         bgWarning,

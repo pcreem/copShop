@@ -32,12 +32,12 @@
 
   <div>
     <ul>
-      <li>{{order.id}}</li>
-      <li>name: {{order.name}}</li>
-      <li>address: {{order.address}}</li>
-      <li>phone: {{order.phone}}</li>
-      <li>shipping_status: {{order.shipping_status}}</li>
-      <li>payment_status: {{order.payment_status}}</li>
+      <li>訂單編號：{{order.id}}</li>
+      <li>姓名: {{order.name}}</li>
+      <li>地址: {{order.address}}</li>
+      <li>電話: {{order.phone}}</li>
+      <li>出貨: {{order.shipping_status}}</li>
+      <li>付款: {{order.payment_status}}</li>
     </ul>
 
     {{#ifCond order.payment_status '0'}}

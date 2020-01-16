@@ -34,7 +34,7 @@ module.exports = (app, passport) => {
   app.post('/products/search', productController.searchProducts)
 
   // cart
-  app.get('/cart', cartController.getCart)// show items in cart
+  app.get('/cart', authenticated, cartController.getCart)// show items in cart
   app.post('/cart', cartController.postCart)// add item to cart
   app.post('/cartItem/:id/add', cartController.addItemQuantity)// add quantity to item
   app.post('/cartItem/:id/sub', cartController.subItemQuantity)// sub quantity to item

@@ -284,7 +284,7 @@ let orderController = {
           })
 
 
-          return res.redirect('/orders')
+          return res.redirect('/order')
         })
       })
   },
