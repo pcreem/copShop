@@ -24,6 +24,14 @@ module.exports = (app, passport) => {
     res.redirect('/signin')
   }
 
+  //signin,signup
+  app.get('/signup', userController.signUpPage)
+  app.post('/signup', userController.signUp)
+
+  app.get('/signin', userController.signInPage)
+  app.post('/signin', passport.authenticate('local', { failureRedirect: '/signin', failureFlash: true }), userController.signIn)
+  app.get('/logout', userController.logout)
+
   app.get('/users/:id', authenticated, userController.getUser)
   app.get('/users/:id/edit', authenticated, userController.editUser)
   app.put('/users/:id', authenticated, upload.single('image'), userController.putUsers)
@@ -48,13 +56,6 @@ module.exports = (app, passport) => {
   // payment
   app.get('/order/:id/payment', authenticated, orderController.getPayment)
   app.post('/newebpay/callback', orderController.newebpayCallback)
-
-  app.get('/signup', userController.signUpPage)
-  app.post('/signup', userController.signUp)
-
-  app.get('/signin', userController.signInPage)
-  app.post('/signin', passport.authenticate('local', { failureRedirect: '/signin', failureFlash: true }), userController.signIn)
-  app.get('/logout', userController.logout)
 
   //back
   app.get('/admin/index', authenticatedAdmin, adminController.getIndex)
