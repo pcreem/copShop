@@ -540,7 +540,6 @@ are based on 10px sizing. So basically 1.5rem = 15px :) */
     dl,
     figure,
     table,
-    p,
     ul,
     ol,
     form {
@@ -1209,11 +1208,16 @@ there.
             </ul>
           </div>
         </li>
+        <li class="navbar-item"><a class="navbar-link {{bgWarning}}" href="/cart">Cart<span
+              class="text-danger">{{cartItemsLength}}</span></a></li>
         {{/ifCond}}
 
+
         {{#ifCond user.role 'user'}}
-        <li class="navbar-item"><a class="navbar-link" href="/cart">Cart</a></li>
+
+        <!--
         <li class="navbar-item"> <a class="navbar-link" href="/orders">Orders</a></li>
+        -->
 
         <li class="navbar-item"> <a class="navbar-link" href="/users/{{user.id}}">Hi, {{user.name}}</a></li>
         <li class="navbar-item"> <a class="navbar-link" href="/logout">Logout</a></li>
@@ -1295,6 +1299,31 @@ there.
     function w3_close() {
       document.getElementById("mySidebar").style.display = "none";
     }
+  </script>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+      $(".copy2input").click(function () {
+
+
+        if ($('.copy2input').is(":checked")) {
+          $("#name").val($("#user_name").text());
+          $("#phone").val($("#user_tel").text());
+          $("#address").val($("#user_address").text());
+
+        } else {
+          $("#name").val('');
+          $("#phone").val('');
+          $("#address").val('');
+        }
+
+
+      });
+
+    });
   </script>
 </body>
 

@@ -75,7 +75,7 @@ function getTradeInfo(Amt, Desc, email) {
     'Version': 1.5, // 串接程式版本
     'MerchantOrderNo': Date.now(), // 商店訂單編號
     'LoginType': 0, // 智付通會員
-    'OrderComment': 'OrderComment', // 商店備註
+    'OrderComment': '無', // 商店備註
     'Amt': Amt, // 訂單金額
     'ItemDesc': Desc, // 產品名稱
     'Email': email, // 付款人電子信箱
@@ -113,6 +113,17 @@ function getTradeInfo(Amt, Desc, email) {
 
 
 let orderController = {
+  getOrder: (req, res) => {
+    Order.findOne({
+      where: { UserId: req.user.id },
+      include: 'items',
+      order: [['createdAt', 'DESC']],
+    }).then(order => {
+      return res.render('order', {
+        order
+      })
+    })
+  },
   getOrders: (req, res) => {
     Order.findAll({
       where: { UserId: req.user.id },
@@ -182,7 +193,7 @@ let orderController = {
             console.error('Error: user email not exist!!')
           }
 
-          res.redirect('/orders')
+          res.redirect('/order')
         })
 
 
@@ -220,7 +231,9 @@ let orderController = {
 
     Order.findByPk(req.params.id).then(order => {
 
-      const tradeInfo = getTradeInfo(order.amount, process.env.PRODUCT_NAME, req.user.email)
+      // console.log("order ID ----> :" + order.id)
+      let productName = "訂單_" + order.id
+      const tradeInfo = getTradeInfo(order.amount, productName, req.user.email)
 
       order.update({
         ...req.body,
@@ -271,7 +284,7 @@ let orderController = {
           })
 
 
-          return res.redirect('/orders')
+          return res.redirect('/order')
         })
       })
   },

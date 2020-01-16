@@ -43,13 +43,14 @@ module.exports = (app, passport) => {
 
   // cart
   app.get('/cart', authenticated, cartController.getCart)// show items in cart
-  app.post('/cart', authenticated, cartController.postCart)// add item to cart
-  app.post('/cartItem/:id/add', authenticated, cartController.addItemQuantity)// add quantity to item
-  app.post('/cartItem/:id/sub', authenticated, cartController.subItemQuantity)// sub quantity to item
-  app.delete('/cartItem/:id', authenticated, cartController.deleteCartItem)
+  app.post('/cart', cartController.postCart)// add item to cart
+  app.post('/cartItem/:id/add', cartController.addItemQuantity)// add quantity to item
+  app.post('/cartItem/:id/sub', cartController.subItemQuantity)// sub quantity to item
+  app.delete('/cartItem/:id', cartController.deleteCartItem)
 
   // order
   app.get('/orders', authenticated, orderController.getOrders)
+  app.get('/order', authenticated, orderController.getOrder)
   app.post('/order', authenticated, orderController.postOrder)
   app.post('/order/:id/cancel', authenticated, orderController.cancelOrder)
 

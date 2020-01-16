@@ -1,0 +1,60 @@
+<div class="row">
+  <div class="col-md-5">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Product</th>
+          <th scope="col">quantity</th>
+          <th scope="col">Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each order.items}}
+        <tr>
+          <td>{{this.name}}</td>
+          <td>{{this.OrderItem.quantity}}</td>
+          <td>{{this.price}} * {{this.OrderItem.quantity}}</td>
+        </tr>
+        {{/each}}
+
+        <tr>
+          <td></td>
+          <td style="text-align: right;">
+            <h4>Total: </h4>
+          </td>
+          <td>
+            <h4>{{order.amount}}</h4>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div>
+    <ul>
+      <li>訂單編號：{{order.id}}</li>
+      <li>姓名: {{order.name}}</li>
+      <li>地址: {{order.address}}</li>
+      <li>電話: {{order.phone}}</li>
+      <li>出貨: {{order.shipping_status}}</li>
+      <li>付款: {{order.payment_status}}</li>
+    </ul>
+
+    {{#ifCond order.payment_status '0'}}
+    <div style="display: flex; justify-content: space-around;">
+      <form action="/order/{{order.id}}/cancel" method="POST">
+        <button type="submit" class="btn btn-primary">取消訂單</button>
+      </form>
+
+      <a href="/order/{{order.id}}/payment"><button class="btn btn-primary">立即付款</button></a>
+    </div>
+    {{/ifCond}}
+  </div>
+
+
+
+
+
+</div>
+
+<hr />

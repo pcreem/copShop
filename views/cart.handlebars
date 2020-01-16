@@ -1,9 +1,9 @@
 <div class="row no-gutters" style="max-width: 540px;">
   <div class="col-md-4">
-    <h4>#</h4>
+    <h4></h4>
   </div>
   <div class="col-md-8">
-    <h4 style="margin: 0 10px;">detail</h4>
+    <h4 style="margin: 0 10px;">訂單詳請</h4>
   </div>
 </div>
 <br>
@@ -59,16 +59,27 @@
   </div>
 </div>
 
+{{#if user}}
+<div class="">
+  <h6>會員資料:</h6>
+  <p>Name: <span id="user_name">{{user.name}}</span></p>
+  <p>TEL: <span id="user_tel">{{user.tel}}</span></p>
+  <p>Address: <span id="user_address">{{user.address}}</span></p>
+</div>
+{{/if}}
 
-
+<br>
+<br>
+<h3>收件人：</h3>
+<input class="copy2input mr-3" type="checkbox"> 代入會員資料
 <form action="order" method="POST">
   <div class="form-group">
     <label for="name">Name</label>
     <input type="text" class="form-control" id="name" placeholder="Enter name" name="name">
   </div>
   <div class="form-group">
-    <label for="phone">Phone</label>
-    <input type="text" class="form-control" id="phone" placeholder="Enter phone" name="phone">
+    <label for="tel">Phone</label>
+    <input type="text" class="form-control" id="phone" placeholder="Enter TEL" name="phone">
   </div>
   <div class="form-group">
     <label for="address">Address</label>
@@ -80,5 +91,9 @@
   <input type="hidden" name="payment_status" value="0">
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+
+
+
 
 <br><br>
