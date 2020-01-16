@@ -14,8 +14,14 @@ let cartController = {
       // console.log(subtotal)
       let totalPrice = cart.items.length > 0 ? cart.items.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
       //console.log(cart)
+
+      let cartItemsLength = cart.items.length > 0 ? cart.items.length : ""
+      let bgWarning = cart.items.length > 0 ? "bg-warning" : ""
+
       return res.render('cart', {
         cart,
+        cartItemsLength,
+        bgWarning,
         subtotal,
         totalPrice
       })

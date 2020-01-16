@@ -55,8 +55,13 @@ const productController = {
             cart = cart || { items: [] }
             let totalPrice = cart.items.length > 0 ? cart.items.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
 
+            let cartItemsLength = cart.items.length > 0 ? cart.items.length : ""
+            let bgWarning = cart.items.length > 0 ? "bg-warning" : ""
+
             return res.render('index', {
               cart,
+              cartItemsLength,
+              bgWarning,
               totalPrice,
               products: data,
               categories: categories,
