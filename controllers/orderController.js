@@ -176,8 +176,8 @@ let orderController = {
             var mailOptions = {
               from: GMAIL_ACCOUNT,
               to: req.user.email,
-              subject: `${order.id} 訂單成立`,
-              text: `${order.id} 訂單成立`,
+              subject: `${process.env.COMPANY_NAME} ${order.id} 訂單成立`,
+              text: `${process.env.COMPANY_NAME} ${order.id} 訂單成立`,
             }
 
             // 訂單成立通知信
@@ -210,8 +210,8 @@ let orderController = {
         var mailOptions = {
           from: GMAIL_ACCOUNT,
           to: req.user.email,
-          subject: `${order.id} 訂單已取消`,
-          text: `${order.id} 訂單已取消`,
+          subject: `${process.env.COMPANY_NAME} ${order.id} 訂單已取消`,
+          text: `${process.env.COMPANY_NAME} ${order.id} 訂單已取消`,
         }
 
         // 訂單取消通知信
@@ -270,8 +270,8 @@ let orderController = {
           var mailOptions = {
             from: GMAIL_ACCOUNT,
             to: req.user.email,
-            subject: `${order.id} 訂單已付款成功`,
-            text: `${order.id} 訂單已付款成功`,
+            subject: `${process.env.COMPANY_NAME} ${order.id} 訂單已付款成功`,
+            text: `${process.env.COMPANY_NAME} ${order.id} 訂單已付款成功`,
           }
 
           // 訂單已付款通知信
