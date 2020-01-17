@@ -61,7 +61,7 @@
 
 {{#if user}}
 <div class="">
-  <h6>會員資料:</h6>
+  <p class="font-weight-bold">會員資料:</p>
   <p>Name: <span id="user_name">{{user.name}}</span></p>
   <p>TEL: <span id="user_tel">{{user.tel}}</span></p>
   <p>Address: <span id="user_address">{{user.address}}</span></p>
@@ -89,7 +89,7 @@
   <input type="hidden" name="amount" value="{{totalPrice}}">
   <input type="hidden" name="shipping_status" value="0">
   <input type="hidden" name="payment_status" value="0">
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-primary">準備結帳</button>
 </form>
 
 

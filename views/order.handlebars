@@ -1,4 +1,10 @@
 <div class="row">
+  {{#ifCond order.payment_status '1'}}
+  <h1>已付款成功！感謝您的購買。</h1>
+  {{/ifCond}}
+</div>
+
+<div class="row">
   <div class="col-md-5">
     <table class="table">
       <thead>
@@ -36,8 +42,20 @@
       <li>姓名: {{order.name}}</li>
       <li>地址: {{order.address}}</li>
       <li>電話: {{order.phone}}</li>
-      <li>出貨: {{order.shipping_status}}</li>
-      <li>付款: {{order.payment_status}}</li>
+
+      {{#ifCond order.shipping_status '1'}}
+      <li>出貨: 已出貨</li>
+      {{/ifCond}}
+      {{#ifCond order.shipping_status '0'}}
+      <li>出貨: 未出貨</li>
+      {{/ifCond}}
+
+      {{#ifCond order.payment_status '1'}}
+      <li>付款: 已付款</li>
+      {{/ifCond}}
+      {{#ifCond order.payment_status '0'}}
+      <li>付款: 未付款</li>
+      {{/ifCond}}
     </ul>
 
     {{#ifCond order.payment_status '0'}}
