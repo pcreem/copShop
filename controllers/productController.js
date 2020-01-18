@@ -5,8 +5,7 @@ const Population = db.Population
 const Cart = db.Cart
 const Category = db.Category
 const pageLimit = 9
-
-
+const Op = Sequelize.Op // for Search
 
 const productController = {
   getProducts: (req, res) => {
@@ -16,6 +15,15 @@ const productController = {
     let populationId = ''
     if (req.query.page) {
       offset = (req.query.page - 1) * pageLimit
+    }
+
+    if (req.query.search) {
+      var search = req.query.search
+      whereQuery = {
+        name: {
+          [Op.like]: '%' + search + '%'
+        }
+      }
     }
 
     if (req.query.categoryId) {
@@ -78,54 +86,6 @@ const productController = {
         })
       })
     })
-  },
-
-
-  searchProducts: (req, res) => {
-    const search = req.body.search
-    const Op = Sequelize.Op
-
-    let offset = 0
-    let whereQuery = {}
-    if (req.query.page) {
-      offset = (req.query.page - 1) * pageLimit
-    }
-
-    Product.findAndCountAll({
-      include: Category,
-      where: {
-        name: {
-          [Op.like]: '%' + search + '%'
-        }
-      },
-      offset: offset,
-      limit: pageLimit
-    })
-      .then(result => {
-        // data for pagination
-        let page = Number(req.query.page) || 1
-        let pages = Math.ceil(result.count / pageLimit)
-        let totalPage = Array.from({ length: pages }).map((item, index) => index + 1)
-        let prev = page - 1 < 1 ? 1 : page - 1
-        let next = page + 1 > pages ? pages : page + 1
-        // clean up restaurant data
-        const data = result.rows.map(r => ({
-
-          ...r.dataValues,
-          description: r.dataValues.description.substring(0, 50)
-        }))
-        Category.findAll().then(categories => { // 取出 categoies 
-          return res.render('index', {
-            products: data,
-            categories: categories,
-            page: page,
-            totalPage: totalPage,
-            prev: prev,
-            next: next
-          })
-
-        })
-      })
   },
 
   getProduct: (req, res) => {

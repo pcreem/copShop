@@ -39,7 +39,6 @@ module.exports = (app, passport) => {
   // product
   app.get('/', productController.getProducts)
   app.get('/products/:id', productController.getProduct)
-  app.post('/products/search', productController.searchProducts)
 
   // cart
   app.get('/cart', authenticated, cartController.getCart)// show items in cart
