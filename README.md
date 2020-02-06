@@ -96,5 +96,5 @@ $ npm run dev
 
 ## 開發人員
 
-- [Kevin](https://github.com/wllcrre)，心得Blog - [coming soon](https://)
+- [Kevin](https://github.com/wllcrre)，[心得Blog](https://medium.com/@shanhengchiu/alpha-camp-%E5%85%A8%E7%AB%AF%E7%B6%B2%E8%B7%AF%E9%96%8B%E7%99%BC%E8%AA%B2%E7%A8%8B%E5%AD%B8%E7%BF%92%E5%BF%83%E5%BE%97-7e043603b1ee)
 - [乃頌](https://github.com/pcreem)，心得Blog - [coming soon](https://)
